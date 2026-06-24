@@ -1,0 +1,22 @@
+{
+  "name": "nowsdk-pm",
+  "description": "Acts as a ServiceNow Project Manager: turns a plain-language app description into a full ServiceNow-oriented design document (AFU v1) and can bootstrap a proven offline, no-auth Now SDK update-set workspace.",
+  "version": "0.1.0",
+  "author": {
+    "name": "hookland1-hub",
+    "url": "https://github.com/hookland1-hub"
+  },
+  "homepage": "https://github.com/hookland1-hub/nowsdk-pm",
+  "repository": "https://github.com/hookland1-hub/nowsdk-pm",
+  "license": "MIT",
+  "keywords": [
+    "servicenow",
+    "now-sdk",
+    "fluent",
+    "pm",
+    "design",
+    "afu",
+    "update-set",
+    "offline"
+  ]
+}

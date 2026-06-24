@@ -1,0 +1,7 @@
+{
+  "scope": "x_scope_app",
+  "scopeId": "REPLACE_WITH_MD5_OF_SCOPE",
+  "name": "My ServiceNow App",
+  "description": "Scoped application built offline with the Now SDK.",
+  "tsconfigPath": "./src/server/tsconfig.json"
+}

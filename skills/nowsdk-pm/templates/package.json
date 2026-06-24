@@ -1,0 +1,22 @@
+{
+  "name": "my-now-sdk-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Offline Now SDK scoped application — build to an importable Update Set XML, no instance auth.",
+  "scripts": {
+    "test": "node tests/validate-source.js",
+    "build": "now-sdk build",
+    "pack:sdk": "now-sdk pack",
+    "package:update-set": "node tools/sdk-dist-to-update-set.js dist/app target/update_set.xml \"My App - SDK Offline\"",
+    "package:delta": "node tools/sdk-dist-to-update-set.js dist/app target/delta.xml \"My App - delta\" --include=sp_*,sys_script_include",
+    "verify:update-set": "node tests/validate-update-set.js target/update_set.xml",
+    "seed:xml": "node tools/generate-seed-data.js target/seed_data.xml",
+    "verify:seed": "node tests/validate-seed-data.js target/seed_data.xml"
+  },
+  "dependencies": {
+    "@servicenow/sdk": "4.7.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
