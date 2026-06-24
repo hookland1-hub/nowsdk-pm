@@ -2,8 +2,8 @@
   "name": "nowsdk-pm",
   "description": "Self-hosted marketplace for the nowsdk-pm plugin — a ServiceNow PM doc-generator and offline Now SDK bootstrap.",
   "owner": {
-    "name": "hookland1-hub",
-    "url": "https://github.com/hookland1-hub"
+    "name": "Fabio Ciro De Biase",
+    "url": "https://www.linkedin.com/in/fabiodebiase-it/"
   },
   "plugins": [
     {

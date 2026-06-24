@@ -85,6 +85,10 @@ Build locally, wrap the generated records into a single self-contained Update Se
 the `sys_app` record, so a clean instance gets the app created on commit), and import it from
 **Retrieved Update Sets**. No `now-sdk auth/install/deploy`, no customer credentials.
 
+## Author
+
+**Fabio Ciro De Biase** — [LinkedIn](https://www.linkedin.com/in/fabiodebiase-it/)
+
 ## License
 
-MIT © hookland1-hub
+MIT © Fabio Ciro De Biase
