@@ -1,7 +1,9 @@
 # ServiceNow scoped-app component checklist (A→Z, step 0 → delivery)
 
 Use this to ensure the design covers every component needed for a working app. Tick what applies;
-mark N/A with a reason. Each item maps to a Fluent capability (see `fluent-capability-matrix.md`).
+mark N/A with a reason. For each ticked item, **note its delivery channel** — *Fluent SDK (offline)* /
+*Now SDK (with auth)* / *on-platform* (App Engine Studio, UI Builder, Flow Designer). See
+`component-delivery-matrix.md`. Pick the best object for the need; never exclude one for packaging reasons.
 
 ## Step 0 — Foundations
 - [ ] Application scope decided: `x_<vendor>_<app>` (lowercase) + stable `scopeId` (md5 of scope)
@@ -31,14 +33,21 @@ mark N/A with a reason. Each item maps to a Fluent capability (see `fluent-capab
 - [ ] Scheduled jobs (`ScheduledScript`) for periodic tasks (e.g. retention sweeps)
 - [ ] System properties (`Property`) for configurable behavior
 
-## User interface
-- [ ] Consultation surface: Configurable Workspace lists / Service Portal console
-- [ ] Management surface: Workspace CRUD / Service Portal management
+## User interface (choose the best surface; note the channel)
+- [ ] Consultation surface: Configurable Workspace / **UI Builder UX experience** / Service Portal console
+- [ ] Management surface: Workspace CRUD / **UI Builder** / Service Portal management
 - [ ] Application menu + modules (backend navigation; URL module to a portal page if useful)
 - [ ] Dashboards (KPIs) if needed
 - [ ] Service Portal (portal/pages/widgets) for custom single-page UX — remember the SP gotchas
 - [ ] Classic Form/List/UI Page where appropriate
-- [ ] Note: custom UX Builder pages are NOT offline-buildable (use Service Portal / UiPage)
+- [ ] **UI Builder UX pages/components/macroponents** (`sys_ux_*`) where a rich Next Experience UI is
+  the best fit — channel: **on-platform** (authored in UI Builder; Fluent can scaffold the workspace shell)
+
+## Process & integration (channel as applicable)
+- [ ] Flows / Subflows / Actions — code-first via `Flow()` where supported, else **Flow Designer** (on-platform)
+- [ ] Service Catalog items/variables — **Catalog Builder** (on-platform) if needed
+- [ ] Notifications / email templates — Fluent where supported, else on-platform
+- [ ] Inbound/outbound integrations (REST/IntegrationHub) — per the SDK docs / on-platform
 
 ## Data & quality
 - [ ] Seed/reference data (non-personal) as a separate XML data unload
@@ -48,11 +57,15 @@ mark N/A with a reason. Each item maps to a Fluent capability (see `fluent-capab
 ## Test
 - [ ] ATF: ACL regression, functional Script Include, relationship integrity
 
-## Release & delivery
-- [ ] Offline build → converter → single `sys_remote_update_set` XML (self-contained, includes `sys_app`)
-- [ ] Optional delta packaging (`--include=...`) for already-deployed apps; DELETE-record handling
-- [ ] Import procedure (Retrieved Update Sets → Import from XML → Preview → Commit)
+## Release & delivery (pick the channel(s) that fit)
+- [ ] Decide delivery channel(s): Fluent SDK **offline** (Update Set XML), Now SDK **with auth**
+  (install/deploy), and/or **on-platform** build (App Engine Studio / UI Builder / Flow Designer)
+- [ ] (Offline option) build → converter → single `sys_remote_update_set` XML (self-contained, includes `sys_app`)
+- [ ] (Offline option) delta packaging (`--include=...`) for already-deployed apps; DELETE-record handling
+- [ ] Import / promotion procedure (e.g. Retrieved Update Sets → Import from XML → Preview → Commit,
+  or App Repository, or SDK install)
 - [ ] Seed import (list → Import XML), post-commit
-- [ ] Role assignment + target plugin prerequisites (Service Portal / Now Experience)
+- [ ] Role assignment + target plugin prerequisites (Service Portal / Now Experience / App Engine)
 - [ ] Operational guide / documentation for the client
+- [ ] On-platform / SDK-auth gaps explicitly listed with owner & sequencing
 - [ ] Open points captured & owner assigned

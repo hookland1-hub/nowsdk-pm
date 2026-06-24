@@ -5,6 +5,10 @@ description: Use when the user wants to set up / scaffold an offline, no-auth Se
 
 # NowSdkBootstrap — scaffold the offline no-auth Now SDK workspace
 
+This is the **offline no-auth delivery accelerator** — **one** of the delivery options for a
+ServiceNow app (the others being a Now SDK build with instance auth, or on-platform authoring). Use it
+when offline Update Set XML delivery is the right fit.
+
 Recreate the proven environment that builds a ServiceNow scoped app locally and packages it into a
 single importable `sys_remote_update_set` XML — **no `now-sdk auth/install/deploy`, no credentials**.
 

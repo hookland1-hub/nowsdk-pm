@@ -1,5 +1,11 @@
 # Handoff — ServiceNow Now SDK: offline, no‑auth, update‑set delivery (complete knowledge base)
 
+> **Scope of this reference:** this documents **one** delivery option — the offline, no‑auth
+> Update Set XML workflow. It is a powerful packaging/delivery choice and an accelerator, **not** a
+> constraint on the AFU design. The design document should recommend the best component for each
+> requirement across the whole platform and annotate its delivery channel (Fluent offline / Now SDK
+> with auth / on‑platform). Use this workflow when offline delivery is the right fit.
+
 This document is a **self‑contained, project‑agnostic** knowledge base for building ServiceNow
 scoped applications locally with the **Now SDK + Fluent**, and delivering them as **importable
 Update Set XML** artifacts **without authenticating to any instance**.

@@ -23,10 +23,13 @@ A single Markdown file following a full AFU skeleton: purpose, scope, design pri
 model, functional & non-functional requirements, solution design (architecture, naming/scope, scope
 protection), **data model** (tables/columns/choices/indexes/relationships), **security** (roles + ACL
 matrix), **UI** (Workspace / Service Portal / forms), **integrations** (Script Include API), data &
-seed strategy, **ATF tests**, **release & offline packaging**, governance (retention/GDPR/logical
+seed strategy, **ATF tests**, **delivery & implementation channels**, governance (retention/GDPR/logical
 delete/auto-number where relevant), assumptions & open points, a **Step 0 → Delivery roadmap**, and an
-**A→Z component checklist**. Only offline-buildable components are proposed; anything requiring UI
-Builder is flagged.
+**A→Z component checklist**. It covers the **whole platform** and recommends the best documented
+component for each requirement, **annotating the delivery channel** of each — *Fluent SDK (offline)* /
+*Now SDK (with auth)* / *on-platform* (App Engine Studio, UI Builder, Flow Designer). Objects that need
+SDK auth or on-platform authoring are called out explicitly (the gaps a delivery team fills), never
+excluded.
 
 ## Prerequisites
 
@@ -67,13 +70,16 @@ Scaffold an offline Now SDK workspace:
 
 ## What's inside
 
-- `skills/nowsdk-pm/` — the PM skill + `references/` (AFU template, Fluent capability matrix, Service
-  Portal gotchas, A→Z component checklist, the offline no-auth update-set workflow) + `templates/`
-  (converter, seed generator, validators, `now.config.json`, `package.json`).
-- `skills/nowsdk-bootstrap/` — scaffolds the offline workspace.
+- `skills/nowsdk-pm/` — the PM skill + `references/` (AFU template, **component & delivery-channel
+  matrix**, Service Portal gotchas, A→Z component checklist, the offline no-auth update-set workflow) +
+  `templates/` (converter, seed generator, validators, `now.config.json`, `package.json`).
+- `skills/nowsdk-bootstrap/` — scaffolds the offline workspace (the offline delivery accelerator).
 - `commands/` — `/nowsdk-pm` and `/nowsdk-bootstrap` slash commands.
 
-## The offline, no-auth philosophy
+## Delivery options (including the offline, no-auth path)
+
+The AFU recommends the best component per requirement and tags each with a delivery channel. One of
+those channels is the **offline, no-auth** path this plugin can also bootstrap:
 
 ```text
 Fluent (*.now.ts) ──now-sdk build──▶ dist/app/*.xml ──converter──▶ sys_remote_update_set.xml
