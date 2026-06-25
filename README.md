@@ -1,6 +1,6 @@
 # nowsdk-pm
 
-**A ServiceNow Project Manager in your Claude Code.** Describe the application you want in plain
+**A ServiceNow Architect / Project Manager in your Claude Code.** Describe the application you want in plain
 language, and `nowsdk-pm` produces a complete, ServiceNow-correct **design document (AFU v1)** —
 covering every component from **step 0 to delivery** — grounded in the official Now SDK so a
 non-expert agent doesn't hallucinate platform behavior. It can also **bootstrap** a proven
