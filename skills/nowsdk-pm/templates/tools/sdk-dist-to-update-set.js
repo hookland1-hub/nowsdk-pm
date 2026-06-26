@@ -215,7 +215,7 @@ lines.push(`<application_version>${escapeXml(appVersion)}</application_version>`
 lines.push('<collisions/>')
 lines.push('<commit_date/>')
 lines.push('<deleted/>')
-lines.push(`<description>Generated offline from ServiceNow SDK build output at ${escapeXml(now)}</description>`)
+lines.push(`<description>${escapeXml(updateSetName)} - generated ${escapeXml(now)}</description>`)
 lines.push('<inserted/>')
 lines.push(`<name>${escapeXml(updateSetName)}</name>`)
 lines.push('<origin_sys_id/>')

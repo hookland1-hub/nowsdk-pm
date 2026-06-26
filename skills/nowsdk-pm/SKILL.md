@@ -21,6 +21,14 @@ You produce a **document**, not an implementation. Stay tool/UI-agnostic about w
      then `explain <topic> --format=raw`), and
    - the bundled references in `references/` of this skill.
    If a fact cannot be grounded, say so and record it as an Open point — do not guess.
+   **`explain` is authoritative but NOT exhaustive.** It documents the SDK's Fluent APIs, not every
+   runtime/platform behavior (security semantics, translation tables, navigator/UX internals, etc.).
+   When `explain` is silent or ambiguous on a platform behavior, **escalate — do not guess and do not
+   try-and-see**: validate against the **official ServiceNow product documentation**, and finally the
+   **community** (developer blogs / answered forum threads). State only what you can cite; anything you
+   cannot verify is an explicit assumption/Open point. A confidently-wrong platform claim is worse than
+   an admitted unknown — it destroys credibility (e.g. record-ACL enforcement requires `GlideRecordSecure`,
+   not plain `GlideRecord`).
 2. **Recommend the best-fit component for each requirement — cover the whole platform.** Choose the
    ServiceNow object that is genuinely best for the need (per the SDK docs / `explain`), and **never
    exclude a valid component because of a packaging or delivery constraint**. For every component,

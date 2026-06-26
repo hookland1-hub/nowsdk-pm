@@ -1,7 +1,7 @@
 {
   "name": "nowsdk-pm",
   "description": "Acts as a ServiceNow Project Manager: turns a plain-language app description into a full, whole-platform design document (AFU v1) that recommends the best-fit components and annotates each with its delivery channel (Fluent SDK offline / Now SDK with auth / on-platform: App Engine Studio, UI Builder, Flow Designer). Grounded in the official Now SDK; can also bootstrap an offline no-auth update-set workspace.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": {
     "name": "Fabio Ciro De Biase",
     "url": "https://www.linkedin.com/in/fabiodebiase-it/"

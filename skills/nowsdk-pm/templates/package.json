@@ -7,7 +7,7 @@
     "test": "node tests/validate-source.js",
     "build": "now-sdk build",
     "pack:sdk": "now-sdk pack",
-    "package:update-set": "node tools/sdk-dist-to-update-set.js dist/app target/update_set.xml \"My App - SDK Offline\"",
+    "package:update-set": "node tools/sdk-dist-to-update-set.js dist/app target/update_set.xml \"My App\"",
     "package:delta": "node tools/sdk-dist-to-update-set.js dist/app target/delta.xml \"My App - delta\" --include=sp_*,sys_script_include",
     "verify:update-set": "node tests/validate-update-set.js target/update_set.xml",
     "seed:xml": "node tools/generate-seed-data.js target/seed_data.xml",

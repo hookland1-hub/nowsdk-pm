@@ -9,7 +9,7 @@
     {
       "name": "nowsdk-pm",
       "description": "ServiceNow PM: generate a full, whole-platform design document (AFU v1) from a plain-language app description — recommending best-fit components and their delivery channel (Fluent offline / Now SDK with auth / on-platform) — and optionally bootstrap an offline no-auth Now SDK update-set workspace.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "source": "./",
       "author": {
         "name": "Fabio Ciro De Biase",

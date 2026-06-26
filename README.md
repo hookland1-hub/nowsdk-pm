@@ -91,6 +91,23 @@ Build locally, wrap the generated records into a single self-contained Update Se
 the `sys_app` record, so a clean instance gets the app created on commit), and import it from
 **Retrieved Update Sets**. No `now-sdk auth/install/deploy`, no customer credentials.
 
+## Changelog
+
+### 0.3.0
+- **Accuracy audit of every platform claim** in the references, validated against `now-sdk explain`,
+  official ServiceNow product documentation, and the community.
+- **Correctness fix:** scoped `GlideRecord` does **not** enforce record ACLs — server-side it runs with
+  system access and **bypasses** them; use **`GlideRecordSecure`** (or explicit `can*()` checks) in
+  widget/server code. (Previous wording was backwards.)
+- **ATF API** corrected to `Test()` (was `AtfTest()`); `sys_atf_test` unchanged.
+- **Delivery matrix realigned:** Service Catalog (`CatalogItem()`/`CatalogUiPolicy()`/…), Email
+  notifications (`EmailNotification()`) and Data Policy (`DataPolicy()`) are Fluent-authorable (were
+  understated as on-platform).
+- **Methodology hardened:** `explain` is authoritative but not exhaustive — when it is silent/ambiguous,
+  escalate to official docs then community; never assert an uncitable platform behavior.
+- Update Set name/description templates no longer embed tooling wording ("SDK"/"Offline") in
+  client-facing fields.
+
 ## Author
 
 **Fabio Ciro De Biase** — [LinkedIn](https://www.linkedin.com/in/fabiodebiase-it/)

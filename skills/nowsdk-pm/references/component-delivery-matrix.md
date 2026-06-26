@@ -40,7 +40,10 @@ the official `now-sdk explain` before authoring.
 | System property | `Property()` | `sys_properties` | configurable settings |
 | Scheduled job | `ScheduledScript()` | `sysauto_script` | periodic server script |
 | Flow (code-first) | `Flow()` | `sys_hub_flow` | confirm scope with `explain`; visual authoring is on-platform |
-| ATF tests | `AtfTest()` | `sys_atf_test` | automated tests |
+| Data Policy | `DataPolicy()` | `sys_data_policy2` (+ `_rule`) | mandatory/read-only enforced across UI + import + API |
+| Email notification | `EmailNotification()` | `sysevent_email_action` | event/record notifications (see `email-notification-guide`) |
+| Service Catalog item & rules | `CatalogItem()`, `CatalogClientScript()`, `CatalogUiPolicy()`, `CatalogItemRecordProducer()` | `sc_cat_item`, `catalog_script_client`, `catalog_ui_policy`, `sc_cat_item_producer` | items + variables + client scripts/UI policies; confirm each via `explain` |
+| ATF test | `Test()` | `sys_atf_test` | `Test(input, fn)` with `atf.server/form/...` steps — `explain test-api` |
 
 Column types: `StringColumn`, `MultiLineTextColumn`, `ChoiceColumn`, `BooleanColumn`, `IntegerColumn`,
 `DateColumn`/`DateTimeColumn`, `ReferenceColumn` (`cascadeRule`), `ListColumn` (Glide List). Add indexes.
@@ -53,9 +56,9 @@ Studio / UI Builder / etc.) — partially or fully outside the Fluent SDK.
 |---|---|---|---|
 | UX (Next Experience) **experiences, pages, components, macroponents** | **UI Builder** | `sys_ux_app_config`, `sys_ux_page`, `sys_ux_screen`, `sys_ux_macroponent`, `sys_ux_component` | Rich workspace/portal-experience UIs; not authored in Fluent. Fluent can scaffold the workspace shell; the page/component design is on-platform. |
 | Visual **Flow / Subflow / Action** | **Flow Designer** | `sys_hub_flow`, `sys_hub_action_type_base` | Code-first flows may be expressible via `Flow()`; complex visual flows are built in Flow Designer. |
-| **Service Catalog** items, variables, UI policies | **Catalog Builder / GUI** | `sc_cat_item`, `item_option_new`, … | Catalog design is typically on-platform. |
+| **Service Catalog** rich design / curation | **Catalog Builder** | `sc_cat_item`, `item_option_new`, … | Core catalog objects ARE Fluent (see the Fluent table above — `CatalogItem()` etc.); Catalog Builder is for visual curation/complex item UX. |
 | **Performance Analytics** (indicators, widgets) | **PA GUI** | `pa_*` | On-platform configuration. |
-| **Email notifications / templates** | GUI (or Fluent where supported) | `sysevent_email_action`, `sys_email_template` | Confirm Fluent support via `explain`; otherwise on-platform. |
+| **Email template (rich design)** | GUI | `sys_email_template` | The notification itself is Fluent (`EmailNotification()` → `sysevent_email_action`); rich HTML template design is on-platform. |
 | **Assignment rules, SLAs, Connect/Agent config**, etc. | GUI | various | Process configuration, on-platform. |
 | App settings authored in **App Engine Studio** | App Engine Studio | various | Studio orchestrates many of the above. |
 

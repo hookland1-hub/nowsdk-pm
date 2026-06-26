@@ -139,7 +139,7 @@ scopeId no longer appear anywhere.
     "test": "node tests/validate-source.js",
     "build": "now-sdk build",
     "pack:sdk": "now-sdk pack",
-    "package:update-set": "node tools/sdk-dist-to-update-set.js dist/app target/<AppName>_update_set.xml \"<AppName> - SDK Offline\"",
+    "package:update-set": "node tools/sdk-dist-to-update-set.js dist/app target/<AppName>_update_set.xml \"<AppName>\"",
     "package:delta": "node tools/sdk-dist-to-update-set.js dist/app target/<AppName>_delta.xml \"<AppName> - delta\" --include=sp_*,sys_script_include",
     "verify:update-set": "node tests/validate-update-set.js target/<AppName>_update_set.xml",
     "seed:xml": "node tools/generate-seed-data.js target/<AppName>_seed_data.xml",
@@ -149,6 +149,10 @@ scopeId no longer appear anywhere.
   "devDependencies": { "typescript": "^5.9.3" }
 }
 ```
+
+> The Update Set **name** and **description** are client-facing (they appear in *Retrieved Update Sets*
+> and `sys_app`). Keep them neutral and product-oriented (the app name) — do **not** embed
+> implementation/tooling wording such as "SDK", "SDK Offline" or "no-auth" in deliverables.
 
 ---
 
@@ -203,7 +207,7 @@ All of the following are declarable in Fluent and compile to `dist/app` XML with
 | Portal widget | `SPWidget()` | `sp_widget` | server/client/html/css via `Now.include` |
 | Portal theme / menu / provider | `SPTheme()`, `SPMenu()`, `SPAngularProvider()` | `sp_theme`, `sp_instance_menu`, `sp_angular_provider` | branding/nav/directives |
 | Flows | `Flow()` | `sys_hub_flow` | (consult explain) |
-| ATF tests | `AtfTest()` | `sys_atf_test` | (consult explain) |
+| ATF test | `Test()` | `sys_atf_test` | `Test(input, fn)` + `atf.*` steps — `explain test-api` |
 
 **NOT supported in Fluent (require the UI Builder editor on a live instance → break no‑auth):**
 custom **UX Builder pages/components/macroponents** (`sys_ux_page`, `sys_ux_component`,
@@ -256,8 +260,12 @@ Widget instance binding inside an `SPPage` container references the widget by it
 
 ## 9. Scoped GlideRecord, security & common platform patterns
 
-- **Scoped GlideRecord enforces ACLs by default**, so a Service Portal widget that creates/updates
-  via `new GlideRecord('<table>')` respects the record ACLs you defined in Fluent — no bypass.
+- **Scoped `GlideRecord` does NOT enforce record ACLs.** Scoped apps enforce *application-scope
+  protection* (cross-scope access) by default, but server-side `GlideRecord` runs with system access
+  and **bypasses record ACLs**. A Service Portal widget that creates/updates via
+  `new GlideRecord('<table>')` therefore bypasses the ACLs you defined in Fluent — use
+  **`GlideRecordSecure`** (or explicit `canCreate()/canRead()/canWrite()/canDelete()` checks) when the
+  widget must honor them. Source: ServiceNow Developer, "GlideRecord vs GlideRecordSecure".
 - **Logical deletion** pattern: every business table carries `active` (Boolean, default true).
   Consumers and automations filter `active=true`; "deleting" sets `active=false`. Document this so
   inactive records are never shown in consultation nor used by automatic procedures.
@@ -408,7 +416,7 @@ const lines = ['<?xml version="1.0" encoding="UTF-8"?>', `<unload unload_date="$
   `<application_scope>${escapeXml(appScope)}</application_scope>`,
   `<application_version>${escapeXml(appVersion)}</application_version>`,
   '<collisions/>', '<commit_date/>', '<deleted/>',
-  `<description>Generated offline from SDK build output at ${escapeXml(now)}</description>`,
+  `<description>${escapeXml(updateSetName)} - generated ${escapeXml(now)}</description>`,
   '<inserted/>', `<name>${escapeXml(updateSetName)}</name>`, '<origin_sys_id/>', '<release_date/>',
   `<remote_sys_id>${escapeXml(remoteSysId)}</remote_sys_id>`, '<state>loaded</state>', '<summary/>',
   '<sys_created_by>admin</sys_created_by>', `<sys_created_on>${escapeXml(now)}</sys_created_on>`,

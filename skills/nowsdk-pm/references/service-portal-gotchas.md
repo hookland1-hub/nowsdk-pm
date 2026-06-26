@@ -35,8 +35,12 @@ cost real debugging time in production deliveries.
     XML via *Retrieved Update Sets → Import from XML*; never import the ZIP there.
 
 ## Platform patterns
-- **Scoped GlideRecord enforces ACLs by default** — portal widgets that write via `new GlideRecord`
-  respect the record ACLs; no bypass.
+- **Scoped `GlideRecord` does NOT enforce record ACLs.** A scoped app enforces *application-scope
+  protection* (cross-scope access) by default, but server-side `GlideRecord` runs with system access
+  and **bypasses record ACLs** — so a portal widget server script that writes via `new GlideRecord`
+  bypasses the ACLs you defined. To honor record ACLs in widget/server code use **`GlideRecordSecure`**
+  (or gate access with explicit `canCreate()`/`canRead()`/`canWrite()`/`canDelete()` checks).
+  Source: ServiceNow Developer, "GlideRecord vs GlideRecordSecure".
 - **Logical deletion**: carry an `active` flag; consumers/automations filter `active=true`;
   "delete" sets `active=false`.
 - **Auto-number**: a `number` String column + table `autoNumber` config (Number Maintenance).
