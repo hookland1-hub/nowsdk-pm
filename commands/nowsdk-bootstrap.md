@@ -1,11 +1,12 @@
 ---
-description: Scaffold an offline, no-auth Now SDK project that builds a scoped app into an importable Update Set XML.
+description: Scaffold a Now SDK workspace for a scoped app — deliverable live (with auth) or fully offline as a no-auth Update Set XML.
 argument-hint: "[target folder]"
 ---
 
-Invoke the `nowsdk-bootstrap` skill to scaffold the proven offline, no-auth Now SDK workspace
-(converter, validators, package scripts, now.config, workflow reference) — without any instance
-authentication. Ask me for the scope and app name if not provided.
+Invoke the `nowsdk-bootstrap` skill to scaffold a Now SDK workspace (Fluent scaffold, converter,
+validators, package scripts, now.config, workflow reference) — ready to deliver either live via the
+standard Now SDK (`now-sdk install`/`deploy`, with auth) or fully offline as a no-auth Update Set XML.
+The skill creates files only and never authenticates. Ask me for the scope and app name if not provided.
 
 Target folder (optional):
 

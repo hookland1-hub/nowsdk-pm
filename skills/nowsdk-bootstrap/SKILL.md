@@ -1,23 +1,23 @@
 ---
 name: nowsdk-bootstrap
-description: Use when the user wants to set up / scaffold an offline, no-auth ServiceNow Now SDK project that builds a scoped application into an importable Update Set XML — recreating the proven workspace (converter, validators, package scripts, now.config) without any instance authentication.
+description: Use when the user wants to set up / scaffold a ServiceNow Now SDK workspace for a scoped application — ready to deliver either live via the standard Now SDK (with auth — install/deploy) or fully offline as a no-auth Update Set XML (build → converter → Retrieved Update Sets). Scaffolds the project (Fluent, converter, validators, scripts, now.config); the skill itself never connects to or authenticates against an instance.
 ---
 
-# NowSdkBootstrap — scaffold the offline no-auth Now SDK workspace
+# NowSdkBootstrap — scaffold a Now SDK workspace (deliver live or offline)
 
-This is the **offline no-auth delivery accelerator** — **one** of the delivery options for a
-ServiceNow app (the others being a Now SDK build with instance auth, or on-platform authoring). Use it
-when offline Update Set XML delivery is the right fit.
+Scaffold a real **Now SDK workspace** for a scoped app, ready to deliver **either way**: push it live with
+the **standard Now SDK** (with instance auth — `now-sdk install`/`deploy`), or package it **offline** into a
+single importable `sys_remote_update_set` **Update Set XML** (no credentials). The scaffold is a standard
+Now SDK project **plus** the offline converter/validators that make the no-auth path possible.
 
-Recreate the proven environment that builds a ServiceNow scoped app locally and packages it into a
-single importable `sys_remote_update_set` XML — **no `now-sdk auth/install/deploy`, no credentials**.
+This skill **creates files only** — it scaffolds from this plugin's bundled templates and explains the next
+steps. It does **not** connect to or authenticate against any instance.
 
-This skill scaffolds files from this plugin's bundled templates and explains the next steps. It does
-**not** connect to any instance.
-
-## Non-negotiable constraint
-Do **not** run, or ask the user for credentials for: `now-sdk auth`, `now-sdk install`,
-`now-sdk deploy`. The entire flow is local build + offline Update Set XML packaging.
+## Constraint (the skill never authenticates for you)
+This skill scaffolds files and **never connects to an instance or asks for credentials** — it does not itself
+run `now-sdk auth`/`install`/`deploy`. You choose the delivery channel: the **offline** path (local build →
+converter → Update Set XML → *Retrieved Update Sets*), or the **live** path where **you** run
+`now-sdk install`/`deploy` against your own authenticated session.
 
 ## Steps
 
@@ -65,10 +65,12 @@ npm run verify:seed       # optional
 npm run pack:sdk          # optional source ZIP (NOT an update set)
 ```
 
-### 6. Deliver
-Import `target/update_set.xml` on the instance via **System Update Sets → Retrieved Update Sets →
-Import Update Set from XML → Preview → Commit**. Import any seed XML from a list (**Import XML**), not
-as an update set.
+### 6. Deliver — pick the channel
+- **Offline (no-auth):** import `target/update_set.xml` via **System Update Sets → Retrieved Update Sets →
+  Import Update Set from XML → Preview → Commit**. Import any seed XML from a list (**Import XML**), not as
+  an update set.
+- **Live (with auth):** the same Fluent app deploys via the standard Now SDK — **you** run
+  `now-sdk install` / `now-sdk deploy` against your authenticated instance (outside this skill).
 
 ## Reference
 The full method, capability matrix, gotchas, converter behavior, and troubleshooting are in

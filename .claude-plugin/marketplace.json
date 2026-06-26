@@ -1,6 +1,6 @@
 {
   "name": "nowsdk-pm",
-  "description": "Self-hosted marketplace for the nowsdk-pm plugin — a ServiceNow PM doc-generator and offline Now SDK bootstrap.",
+  "description": "Self-hosted marketplace for the nowsdk-pm plugin — a ServiceNow Senior Architect: architecture & design docs plus a Now SDK workspace bootstrap (deliver live with auth or fully offline).",
   "owner": {
     "name": "Fabio Ciro De Biase",
     "url": "https://www.linkedin.com/in/fabiodebiase-it/"
@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "nowsdk-pm",
-      "description": "ServiceNow PM: generate a full, whole-platform design document (AFU v1) from a plain-language app description — recommending best-fit components and their delivery channel (Fluent offline / Now SDK with auth / on-platform) — and optionally bootstrap an offline no-auth Now SDK update-set workspace.",
+      "description": "ServiceNow Senior Architect: from a plain-language app description, generate whole-platform architecture & design documentation (AFU) — recommending best-fit components and their delivery channel (Fluent offline / Now SDK with auth / on-platform) — then bootstrap a Now SDK workspace deliverable live (with auth) or fully offline as a no-auth Update Set XML.",
       "version": "0.3.0",
       "source": "./",
       "author": {

@@ -1,35 +1,52 @@
 # nowsdk-pm
 
-**A ServiceNow Architect / Project Manager in your Claude Code.** Describe the application you want in plain
-language, and `nowsdk-pm` produces a complete, ServiceNow-correct **design document (AFU v1)** —
-covering every component from **step 0 to delivery** — grounded in the official Now SDK so a
-non-expert agent doesn't hallucinate platform behavior. It can also **bootstrap** a proven
-**offline, no-auth** Now SDK workspace that builds a scoped app into an importable **Update Set XML**.
+**A ServiceNow Senior Architect in your Claude Code.** Describe the application you want in plain
+language and `nowsdk-pm` takes you **from architecture & design through development and delivery**:
+it first produces complete, ServiceNow-correct **architecture & design documentation** (whole-platform —
+data, security, UI, integration, governance, delivery roadmap), then **scaffolds a ready-to-build Now SDK
+workspace** you can ship **either** via the **standard Now SDK** (with instance auth: `now-sdk install`/
+`deploy`) **or** fully **offline** as a no-auth **Update Set XML**. Every platform fact is grounded in the
+official Now SDK (`now-sdk explain`) plus a curated, **source-validated** set of references — so a
+non-expert agent doesn't hallucinate platform behavior.
 
-> You get a strong, platform-oriented starting point. What happens next — build it with the Now SDK,
-> or hand it to a sys admin for a manual build — is your choice. The document is a starting point for
-> a design review, not a substitute for one.
+> A senior-architect head start for the whole journey — **design → build → deliver**. What you ship and
+> how (live via the Now SDK, offline as an Update Set, or on-platform) stays your choice; the
+> documentation and the scaffold are a strong, validated starting point, not a substitute for your own
+> design review.
 
 ## Why
 
-When an AI that isn't deeply trained on ServiceNow tries to operate on the platform, it hallucinates:
-wrong APIs, non-existent metadata, impossible UI. `nowsdk-pm` flips the order — it first writes a
-**ServiceNow-oriented design** grounded in the official `now-sdk explain` documentation and a curated
-set of hard-won references, so every later step starts from solid ground.
+When an AI that isn't deeply trained on ServiceNow operates on the platform, it hallucinates: wrong APIs,
+non-existent metadata, impossible UI. `nowsdk-pm` flips the order — it first establishes a
+**ServiceNow-correct architecture** grounded in the official `now-sdk explain` docs and hard-won,
+source-validated references, then carries that grounding into the build and delivery steps so every stage
+starts from solid ground.
+
+## From design to delivery
+
+1. **Architect** — turn a plain-language description into a whole-platform **design specification (AFU)**:
+   recommends the best-fit component for each requirement and **annotates each with its delivery channel**
+   (*Fluent SDK offline* / *Now SDK with auth* / *on-platform*), flagging the gaps a delivery team fills —
+   never excluding a valid component.
+2. **Bootstrap** — scaffold a real **Now SDK workspace** (Fluent project, scripts, validators, offline
+   converter) ready to build.
+3. **Deliver — your channel**: push live with the **standard Now SDK** (with auth), package **offline**
+   into a self-contained **Update Set XML** (no credentials), or hand off the on-platform items
+   (UI Builder / Flow Designer / App Engine Studio) the design called out.
 
 ## What it produces
 
-A single Markdown file following a full AFU skeleton: purpose, scope, design principles, operating
-model, functional & non-functional requirements, solution design (architecture, naming/scope, scope
-protection), **data model** (tables/columns/choices/indexes/relationships), **security** (roles + ACL
-matrix), **UI** (Workspace / Service Portal / forms), **integrations** (Script Include API), data &
-seed strategy, **ATF tests**, **delivery & implementation channels**, governance (retention/GDPR/logical
-delete/auto-number where relevant), assumptions & open points, a **Step 0 → Delivery roadmap**, and an
-**A→Z component checklist**. It covers the **whole platform** and recommends the best documented
-component for each requirement, **annotating the delivery channel** of each — *Fluent SDK (offline)* /
-*Now SDK (with auth)* / *on-platform* (App Engine Studio, UI Builder, Flow Designer). Objects that need
-SDK auth or on-platform authoring are called out explicitly (the gaps a delivery team fills), never
-excluded.
+1. **Architecture & design documentation** — a full specification (AFU) covering the whole platform:
+   purpose/scope, design principles, operating model, functional & non-functional requirements,
+   **data architecture** (tables/columns/choices/indexes/relationships), **security architecture**
+   (roles + ACL matrix, scope protection), **UI architecture** (Workspace / UI Builder / Service Portal /
+   classic), **integration architecture** (Script Include APIs, consumer scopes), governance
+   (retention/GDPR/logical-delete/auto-number), data & seed strategy, an **ATF test plan**,
+   **delivery & implementation channels**, a **Step 0 → Delivery roadmap**, and an A→Z component checklist.
+2. **A ready-to-build Now SDK workspace** (via the bootstrap skill) — `now.config`, package scripts, a
+   Fluent scaffold, validators and the offline converter — **deliverable both ways**: pushed live with the
+   standard **Now SDK (with auth)** (`now-sdk install`/`deploy`), or packaged **offline** into a single,
+   self-contained **Update Set XML** importable via *Retrieved Update Sets* (no credentials).
 
 ## Prerequisites
 
@@ -54,15 +71,15 @@ you what's available and what to install.
 
 ## Use
 
-Generate a design document:
+Generate the architecture & design documentation:
 
 ```text
 /nowsdk-pm  an app to manage IT assets with an approval workflow and a console for operators
 ```
 
-…or just describe your app in chat — the `nowsdk-pm` skill triggers on design/scoping requests.
+…or just describe your app in chat — the `nowsdk-pm` skill triggers on design/architecture requests.
 
-Scaffold an offline Now SDK workspace:
+Scaffold a Now SDK workspace (ready for either delivery channel):
 
 ```text
 /nowsdk-bootstrap
@@ -70,26 +87,30 @@ Scaffold an offline Now SDK workspace:
 
 ## What's inside
 
-- `skills/nowsdk-pm/` — the PM skill + `references/` (AFU template, **component & delivery-channel
-  matrix**, Service Portal gotchas, A→Z component checklist, the offline no-auth update-set workflow) +
+- `skills/nowsdk-pm/` — the architect skill + `references/` (AFU template, **component & delivery-channel
+  matrix**, Service Portal gotchas, A→Z component checklist, the end-to-end update-set workflow) +
   `templates/` (converter, seed generator, validators, `now.config.json`, `package.json`).
-- `skills/nowsdk-bootstrap/` — scaffolds the offline workspace (the offline delivery accelerator).
+- `skills/nowsdk-bootstrap/` — scaffolds a Now SDK workspace deliverable live (with auth) or offline (no-auth).
 - `commands/` — `/nowsdk-pm` and `/nowsdk-bootstrap` slash commands.
 
-## Delivery options (including the offline, no-auth path)
+## Delivery channels
 
-The AFU recommends the best component per requirement and tags each with a delivery channel. One of
-those channels is the **offline, no-auth** path this plugin can also bootstrap:
+The design recommends the best component per requirement and tags each with a channel; the scaffolded
+workspace can be delivered through whichever fits:
+
+- **Now SDK (with auth)** — push the same Fluent app live to a connected instance (`now-sdk install` /
+  `now-sdk deploy`).
+- **Offline (no-auth)** — build locally and wrap the generated records into a single self-contained
+  **Update Set XML** (it includes the `sys_app` record, so a clean instance gets the app on commit); import
+  it from **Retrieved Update Sets → Import from XML → Preview → Commit** — no credentials.
 
 ```text
-Fluent (*.now.ts) ──now-sdk build──▶ dist/app/*.xml ──converter──▶ sys_remote_update_set.xml
-                                                                       │
-                                              Retrieved Update Sets ◀──┘  (Preview → Commit)
+Fluent (*.now.ts) ──now-sdk build──▶ dist/app/*.xml ──┬─▶ now-sdk install/deploy   (with auth)
+                                                      └─▶ converter ▶ Update Set XML ▶ Retrieved Update Sets (no auth)
 ```
 
-Build locally, wrap the generated records into a single self-contained Update Set XML (it includes
-the `sys_app` record, so a clean instance gets the app created on commit), and import it from
-**Retrieved Update Sets**. No `now-sdk auth/install/deploy`, no customer credentials.
+- **On-platform** — the design flags objects best (or only) authored in UI Builder / Flow Designer /
+  Catalog Builder / App Engine Studio, with the work they need.
 
 ## Changelog
 
@@ -105,7 +126,6 @@ the `sys_app` record, so a clean instance gets the app created on commit), and i
   understated as on-platform).
 - **Methodology hardened:** `explain` is authoritative but not exhaustive — when it is silent/ambiguous,
   escalate to official docs then community; never assert an uncitable platform behavior.
-
 
 ## Author
 
