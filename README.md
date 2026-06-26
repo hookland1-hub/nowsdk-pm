@@ -105,8 +105,7 @@ the `sys_app` record, so a clean instance gets the app created on commit), and i
   understated as on-platform).
 - **Methodology hardened:** `explain` is authoritative but not exhaustive — when it is silent/ambiguous,
   escalate to official docs then community; never assert an uncitable platform behavior.
-- Update Set name/description templates no longer embed tooling wording ("SDK"/"Offline") in
-  client-facing fields.
+
 
 ## Author
 
