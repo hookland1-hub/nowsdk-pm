@@ -88,7 +88,7 @@ You produce a **document**, not an implementation. Stay tool/UI-agnostic about w
 - Mark every unresolved item in §17 Open points.
 
 ### 5. Save & hand off
-- Save the document as a Markdown file (e.g. `docs/<app>-design-spec-v1.md`) in the user's workspace.
+- Save the document as a Markdown file (e.g. `docs/<app>-design-spec-v1.md`) in the user's working directory.
 - Summarize what was produced and remind the user this is a **starting point** for a design review,
   not a substitute for one. Offer next steps per the chosen delivery channels: an on-platform build
   (App Engine Studio / UI Builder / Flow Designer), a Now SDK build with instance auth, and/or — for

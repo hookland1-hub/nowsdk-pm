@@ -4,7 +4,7 @@
 language and `nowsdk-pm` takes you **from architecture & design through development and delivery**:
 it first produces complete, ServiceNow-correct **architecture & design documentation** (whole-platform —
 data, security, UI, integration, governance, delivery roadmap), then **scaffolds a ready-to-build Now SDK
-workspace** you can ship **either** via the **standard Now SDK** (with instance auth: `now-sdk install`/
+project** you can ship **either** via the **standard Now SDK** (with instance auth: `now-sdk install`/
 `deploy`) **or** fully **offline** as a no-auth **Update Set XML**. Every platform fact is grounded in the
 official Now SDK (`now-sdk explain`) plus a curated, **source-validated** set of references — so a
 non-expert agent doesn't hallucinate platform behavior.
@@ -28,7 +28,7 @@ starts from solid ground.
    recommends the best-fit component for each requirement and **annotates each with its delivery channel**
    (*Fluent SDK offline* / *Now SDK with auth* / *on-platform*), flagging the gaps a delivery team fills —
    never excluding a valid component.
-2. **Bootstrap** — scaffold a real **Now SDK workspace** (Fluent project, scripts, validators, offline
+2. **Bootstrap** — scaffold a real **Now SDK project** (Fluent source, scripts, validators, offline
    converter) ready to build.
 3. **Deliver — your channel**: push live with the **standard Now SDK** (with auth), package **offline**
    into a self-contained **Update Set XML** (no credentials), or hand off the on-platform items
@@ -43,7 +43,7 @@ starts from solid ground.
    classic), **integration architecture** (Script Include APIs, consumer scopes), governance
    (retention/GDPR/logical-delete/auto-number), data & seed strategy, an **ATF test plan**,
    **delivery & implementation channels**, a **Step 0 → Delivery roadmap**, and an A→Z component checklist.
-2. **A ready-to-build Now SDK workspace** (via the bootstrap skill) — `now.config`, package scripts, a
+2. **A ready-to-build Now SDK project** (via the bootstrap skill) — `now.config`, package scripts, a
    Fluent scaffold, validators and the offline converter — **deliverable both ways**: pushed live with the
    standard **Now SDK (with auth)** (`now-sdk install`/`deploy`), or packaged **offline** into a single,
    self-contained **Update Set XML** importable via *Retrieved Update Sets* (no credentials).
@@ -80,7 +80,7 @@ Generate the architecture & design documentation:
 
 …or just describe your app in chat — the `nowsdk-pm` skill triggers on design/architecture requests.
 
-Scaffold a Now SDK workspace (ready for either delivery channel):
+Scaffold a Now SDK project (ready for either delivery channel):
 
 ```text
 /nowsdk-bootstrap
@@ -92,13 +92,13 @@ Scaffold a Now SDK workspace (ready for either delivery channel):
   matrix**, **SDK Fluent capabilities** (4.8), **configuration reference**, **Fluent-language reference**,
   **best practices**, Service Portal gotchas, A→Z component checklist, the end-to-end update-set workflow) +
   `templates/` (converter, seed generator, validators, `now.config.json`, `package.json`).
-- `skills/nowsdk-bootstrap/` — scaffolds a Now SDK workspace deliverable live (with auth) or offline (no-auth).
+- `skills/nowsdk-bootstrap/` — scaffolds a Now SDK project deliverable live (with auth) or offline (no-auth).
 - `commands/` — `/nowsdk-pm` and `/nowsdk-bootstrap` slash commands.
 
 ## Delivery channels
 
 The design recommends the best component per requirement and tags each with a channel; the scaffolded
-workspace can be delivered through whichever fits:
+project can be delivered through whichever fits:
 
 - **Now SDK (with auth)** — push the same Fluent app live to a connected instance (`now-sdk install` /
   `now-sdk deploy`).

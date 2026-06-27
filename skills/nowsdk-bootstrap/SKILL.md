@@ -1,11 +1,11 @@
 ---
 name: nowsdk-bootstrap
-description: Use when the user wants to set up / scaffold a ServiceNow Now SDK workspace for a scoped application — ready to deliver either live via the standard Now SDK (with auth — install/deploy) or fully offline as a no-auth Update Set XML (build → converter → Retrieved Update Sets). Scaffolds the project (Fluent, converter, validators, scripts, now.config); the skill itself never connects to or authenticates against an instance.
+description: Use when the user wants to set up / scaffold a ServiceNow Now SDK project for a scoped application — ready to deliver either live via the standard Now SDK (with auth — install/deploy) or fully offline as a no-auth Update Set XML (build → converter → Retrieved Update Sets). Scaffolds the project (Fluent, converter, validators, scripts, now.config); the skill itself never connects to or authenticates against an instance.
 ---
 
-# NowSdkBootstrap — scaffold a Now SDK workspace (deliver live or offline)
+# NowSdkBootstrap — scaffold a Now SDK project (deliver live or offline)
 
-Scaffold a real **Now SDK workspace** for a scoped app, ready to deliver **either way**: push it live with
+Scaffold a real **Now SDK project** for a scoped app, ready to deliver **either way**: push it live with
 the **standard Now SDK** (with instance auth — `now-sdk install`/`deploy`), or package it **offline** into a
 single importable `sys_remote_update_set` **Update Set XML** (no credentials). The scaffold is a standard
 Now SDK project **plus** the offline converter/validators that make the no-auth path possible.
