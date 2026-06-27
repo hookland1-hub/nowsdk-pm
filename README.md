@@ -54,7 +54,7 @@ starts from solid ground.
 ServiceNow-correct design and a ready-to-build app, grounded in the `explain` docs you already have. It
 **doesn't replace the SDK** — it requires it and builds the architect layer on top.
 
-| Capability | Now SDK + `explain` alone | + nowsdk-pm |
+| Capability | Now SDK + `explain` | + nowsdk-pm |
 |---|---|---|
 | Platform facts | Per-topic reference you look up yourself (`explain <topic>`) | The same `explain` (required) **+ a curated, cross-cutting synthesis** (capability map, configuration & Fluent-language references, best practices) |
 | Plain-language description → design | — (you architect it yourself) | A **whole-platform architecture & design document (AFU)** from a description |
