@@ -48,6 +48,25 @@ starts from solid ground.
    standard **Now SDK (with auth)** (`now-sdk install`/`deploy`), or packaged **offline** into a single,
    self-contained **Update Set XML** importable via *Retrieved Update Sets* (no credentials).
 
+## SDK + `explain` alone vs + nowsdk-pm
+
+`nowsdk-pm` **doesn't replace the SDK** — it requires the latest Now SDK and `explain`, and adds a
+Senior-Architect layer on top (design, curated knowledge, offline packaging, discipline).
+
+| Capability | Now SDK + `explain` alone | + nowsdk-pm |
+|---|---|---|
+| Platform facts | Per-topic reference you look up yourself (`explain <topic>`) | The same `explain` (required) **+ a curated, cross-cutting synthesis** (capability map, configuration & Fluent-language references, best practices) |
+| Plain-language description → design | — (you architect it yourself) | A **whole-platform architecture & design document (AFU)** from a description |
+| Best-fit component + delivery channel per requirement | You decide manually, topic by topic | A **component & delivery-channel matrix** (recommends + annotates Fluent-offline / SDK-auth / on-platform) |
+| Best practices / anti-patterns / hard-won gotchas | Scattered across per-topic guides | **One synthesized, validated set** (security/ACLs one-per-op, `GlideRecordSecure`, Service Portal gotchas, module anti-patterns, keystore/frozen-keys) |
+| Project scaffold | `now-sdk init` (standard project) | Bootstrap **+ offline no-auth Update Set packaging** (converter, validators, seed generator) that the base SDK doesn't provide |
+| Delivery channels | `install`/`deploy` (auth), `pack` (source ZIP), `transform` | Both channels end-to-end, including the **offline Update Set XML** (no auth) |
+| Method / discipline | A toolchain (no methodology) | A **validation discipline** (explain → official docs → community; never invent) + AFU skeleton, roadmap, A→Z checklist |
+| Output | Built app artifacts | A **design-spec deliverable** + a ready-to-build project |
+
+It never writes the app for you or replaces `explain` — it grounds every fact in `explain`/official docs,
+curates it, and builds an architect's workflow on top.
+
 ## Prerequisites
 
 - **Node.js** (LTS or newer).
