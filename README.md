@@ -92,15 +92,28 @@ curates it, and builds an architect's workflow on top.
 
 ## Use
 
-Generate the architecture & design documentation:
+Run it **bare** to get the menu — a description is optional:
+
+```text
+/nowsdk-pm
+```
+
+You'll be offered three modes:
+- 🆕 **New project** — describe your idea → a whole-platform architecture & design document (AFU).
+- 🔗 **Align to an existing project** — give a local path to your project's docs/deliverables; it ingests them,
+  aligns to the project's current state, and then supports every next request on that project.
+- 🧪 **Bootstrap an example** — scaffold a small sample app to test the plugin.
+
+Or jump straight to a new design by passing the idea:
 
 ```text
 /nowsdk-pm  an app to manage IT assets with an approval workflow and a console for operators
 ```
 
-…or just describe your app in chat — the `nowsdk-pm` skill triggers on design/architecture requests.
+> **Requires the latest Now SDK.** If yours is outdated (e.g. an older 4.7.x), the skill stops and asks you to
+> upgrade first (`npm install @servicenow/sdk@latest`) — it won't run on a stale SDK.
 
-Scaffold a Now SDK project (ready for either delivery channel):
+Scaffold a Now SDK project directly (either delivery channel):
 
 ```text
 /nowsdk-bootstrap
@@ -135,6 +148,14 @@ Fluent (*.now.ts) ──now-sdk build──▶ dist/app/*.xml ──┬─▶ no
   Catalog Builder / App Engine Studio, with the work they need.
 
 ## Changelog
+
+### 0.6.0
+- **`/nowsdk-pm` is now a menu** when run bare — a description is no longer required. Three modes:
+  **New project** (design from an idea), **Align to an existing project** (point it at a local docs/deliverables
+  path; it ingests, aligns, and supports every next request on that project), and **Bootstrap an example**.
+- **The latest Now SDK is force-required**: the preflight hard-blocks and asks you to upgrade if the installed SDK
+  isn't the latest (no "offline-only" fallback, no proceeding on a stale SDK).
+- Install descriptions updated to reflect the modes and the SDK requirement.
 
 ### 0.5.1
 - **Accuracy pass on the integrated docs knowledge** (validated against `now-sdk explain`): module-guide
