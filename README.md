@@ -114,6 +114,17 @@ Fluent (*.now.ts) ──now-sdk build──▶ dist/app/*.xml ──┬─▶ no
 
 ## Changelog
 
+### 0.4.0
+- **Aligned to Now SDK 4.8.1** (templates) and added a validated capability knowledge base
+  (`references/sdk-fluent-capabilities.md`), grounded in `now-sdk explain` (4.8.1) + the official GitHub
+  release notes.
+- **New Fluent APIs surfaced (4.8):** `RestMessage()` (`sys_rest_message`), `Alias()`/`AliasTemplate()`,
+  `RetryPolicy()`, `DataLookup()` (`dl_definition`), `PlaybookDefinition()` (`sys_pd_process_definition`),
+  `UserCriteria()` — added to the delivery matrix and component checklist as Fluent-authorable.
+- **Helpers documented:** `Now.del()` (mark a record for deletion on deploy), `$override` (escape hatch),
+  `Table` `augments`/`createAccessControls`/`userRole`, Flow `Stages`/`TryCatch`/`DoInParallel`, ACL `field`
+  typing, `ScheduledScript` `$meta` one-time; CLI `now-sdk query` (auth).
+
 ### 0.3.0
 - **Accuracy audit of every platform claim** in the references, validated against `now-sdk explain`,
   official ServiceNow product documentation, and the community.

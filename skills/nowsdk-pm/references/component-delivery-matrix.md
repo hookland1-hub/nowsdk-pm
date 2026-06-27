@@ -44,9 +44,20 @@ the official `now-sdk explain` before authoring.
 | Email notification | `EmailNotification()` | `sysevent_email_action` | event/record notifications (see `email-notification-guide`) |
 | Service Catalog item & rules | `CatalogItem()`, `CatalogClientScript()`, `CatalogUiPolicy()`, `CatalogItemRecordProducer()` | `sc_cat_item`, `catalog_script_client`, `catalog_ui_policy`, `sc_cat_item_producer` | items + variables + client scripts/UI policies; confirm each via `explain` |
 | ATF test | `Test()` | `sys_atf_test` | `Test(input, fn)` with `atf.server/form/...` steps — `explain test-api` |
+| Outbound REST integration | `RestMessage()` | `sys_rest_message` (+ `sys_rest_message_fn`) | base URL + shared auth/headers + callable HTTP functions (**4.8**) |
+| Connection & Credential Alias | `Alias()`, `AliasTemplate()` | `sys_alias`, `sys_alias_templates` | named connection/credential handle + wizard template (**4.8**) |
+| Retry policy | `RetryPolicy()` | `sys_retry_policy` | transient-failure strategy for outbound connections (**4.8**) |
+| Data Lookup | `DataLookup()` | `dl_definition` | auto-copy field values matcher → target on conditions (**4.8**) |
+| Playbook | `PlaybookDefinition()` | `sys_pd_process_definition` | guided multi-step process: lanes, activities, triggers, in/out (**4.8**) |
+| User Criteria | `UserCriteria()` | `user_criteria` | reusable access condition (catalog/KB/portal visibility) (**4.8**) |
 
 Column types: `StringColumn`, `MultiLineTextColumn`, `ChoiceColumn`, `BooleanColumn`, `IntegerColumn`,
 `DateColumn`/`DateTimeColumn`, `ReferenceColumn` (`cascadeRule`), `ListColumn` (Glide List). Add indexes.
+
+Helpers / cross-cutting (confirm with `explain`): **`Now.del()`** marks a record for deletion (removed on
+deploy); **`$override`** sets any field not exposed by the typed API; **`Table` `augments`** extends an existing
+platform/cross-scope table by adding columns (+ `createAccessControls`, `userRole`). New 4.8 APIs and these
+helpers are detailed in **`sdk-fluent-capabilities.md`** (validated through SDK 4.8.1).
 
 ## On-platform / GUI-authored components (Channel: on-platform)
 Recommend these when they are the best fit; note that they are authored in the instance (App Engine

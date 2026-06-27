@@ -47,7 +47,11 @@ mark N/A with a reason. For each ticked item, **note its delivery channel** — 
 - [ ] Flows / Subflows / Actions — code-first via `Flow()` where supported, else **Flow Designer** (on-platform)
 - [ ] Service Catalog items/variables — Fluent (`CatalogItem()`/`CatalogUiPolicy()`/`CatalogClientScript()`) or **Catalog Builder** for rich item UX
 - [ ] Notifications (`EmailNotification()`, Fluent) / email templates (rich HTML template design on-platform)
-- [ ] Inbound/outbound integrations (REST/IntegrationHub) — per the SDK docs / on-platform
+- [ ] Outbound REST integration — Fluent `RestMessage()` (+ `Alias()`/`AliasTemplate()` for connection/credential, `RetryPolicy()` for transient failures)
+- [ ] Inbound integrations (Scripted REST / IntegrationHub) — per the SDK docs / on-platform
+- [ ] Playbook (`PlaybookDefinition()`) for a guided multi-step process, if applicable
+- [ ] Data Lookup (`DataLookup()`) to auto-populate fields from matching records, if applicable
+- [ ] User Criteria (`UserCriteria()`) for catalog/KB/portal visibility, if applicable
 
 ## Data & quality
 - [ ] Seed/reference data (non-personal) as a separate XML data unload

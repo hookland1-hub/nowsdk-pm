@@ -98,6 +98,8 @@ You produce a **document**, not an implementation. Stay tool/UI-agnostic about w
 - `references/component-checklist.md` — the A→Z component checklist (Appendix A).
 - `references/offline-update-set-workflow.md` — **one** delivery option: the proven offline, no-auth
   update-set workflow.
+- `references/sdk-fluent-capabilities.md` — validated Fluent capability knowledge through SDK 4.8.1
+  (new APIs, helpers, what's new 4.7→4.8) with sources; re-confirm shapes with `explain`.
 
 ## Definition of done
 A single Markdown document that: follows the full skeleton; covers the whole platform and recommends

@@ -62,7 +62,7 @@ human importing the generated XML. This constraint holds unless the user explici
 OS:        Windows (PowerShell) or any OS with a POSIX shell
 Node.js:   recent LTS or newer (validated on very recent Node; any modern Node works)
 npm:       bundled with Node
-SDK:       @servicenow/sdk  (>= 4.6.0 required for `explain`; 4.7.x validated)
+SDK:       @servicenow/sdk  (>= 4.6.0 required for `explain`; 4.8.x validated — 4.8.1)
 TypeScript: ^5.x (devDependency)
 Optional:  ripgrep (rg) for fast searches, git for VCS
 ```
@@ -145,7 +145,7 @@ scopeId no longer appear anywhere.
     "seed:xml": "node tools/generate-seed-data.js target/<AppName>_seed_data.xml",
     "verify:seed": "node tests/validate-seed-data.js target/<AppName>_seed_data.xml"
   },
-  "dependencies": { "@servicenow/sdk": "4.7.2" },
+  "dependencies": { "@servicenow/sdk": "4.8.1" },
   "devDependencies": { "typescript": "^5.9.3" }
 }
 ```
@@ -206,8 +206,15 @@ All of the following are declarable in Fluent and compile to `dist/app` XML with
 | Portal page | `SPPage()` | `sp_page` | containers→rows→columns→instances |
 | Portal widget | `SPWidget()` | `sp_widget` | server/client/html/css via `Now.include` |
 | Portal theme / menu / provider | `SPTheme()`, `SPMenu()`, `SPAngularProvider()` | `sp_theme`, `sp_instance_menu`, `sp_angular_provider` | branding/nav/directives |
-| Flows | `Flow()` | `sys_hub_flow` | (consult explain) |
+| Flows | `Flow()` | `sys_hub_flow` | Stages, `TryCatch`, `DoInParallel`, action outputs (consult explain) |
 | ATF test | `Test()` | `sys_atf_test` | `Test(input, fn)` + `atf.*` steps — `explain test-api` |
+| Outbound REST | `RestMessage()` | `sys_rest_message` (+ `_fn`) | base URL + auth/headers + HTTP functions (**4.8**) |
+| Connection alias | `Alias()`, `AliasTemplate()` | `sys_alias`, `sys_alias_templates` | connection/credential handle + template (**4.8**) |
+| Retry policy | `RetryPolicy()` | `sys_retry_policy` | transient-failure handling (**4.8**) |
+| Data Lookup | `DataLookup()` | `dl_definition` | auto-copy field values on match (**4.8**) |
+| Playbook | `PlaybookDefinition()` | `sys_pd_process_definition` | lanes/activities/triggers (**4.8**) |
+| User Criteria | `UserCriteria()` | `user_criteria` | reusable visibility/access condition (**4.8**) |
+| Data Policy | `DataPolicy()` | `sys_data_policy2` (+ `_rule`) | mandatory/read-only across UI+import+API (**4.7**) |
 
 **NOT supported in Fluent (require the UI Builder editor on a live instance → break no‑auth):**
 custom **UX Builder pages/components/macroponents** (`sys_ux_page`, `sys_ux_component`,
@@ -225,7 +232,14 @@ custom **UX Builder pages/components/macroponents** (`sys_ux_page`, `sys_ux_comp
 - `Now.include('relative/path.ext')` → inline an external file (server JS, client JS, HTML, CSS/SCSS)
   into a record field.
 - `Now.ref(...)` → reference another defined record.
+- **`Now.del()`** (4.8) → mark a record for **deletion**; on deploy it is removed from the target (offline: it
+  surfaces as an `action="DELETE"` record — the converter propagates it; see §9/§10 and the keystore note).
+- **`$override`** (4.7) → escape hatch to set any field not exposed by the typed API surface (`explain override-guide`).
+- **`Table` `augments`** (4.7) → extend an existing platform/cross-scope table by adding columns (only `schema`
+  configurable); plus `createAccessControls`, `userRole`.
 - `index.now.ts` must `export * from './<each>.now'` so every metadata file is included in the build.
+- New 4.8 Fluent APIs (RestMessage, Alias/AliasTemplate, RetryPolicy, DataLookup, PlaybookDefinition,
+  UserCriteria) and the helpers above are detailed, with sources, in `sdk-fluent-capabilities.md`.
 
 ---
 

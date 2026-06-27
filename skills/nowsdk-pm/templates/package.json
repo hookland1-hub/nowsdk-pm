@@ -14,7 +14,7 @@
     "verify:seed": "node tests/validate-seed-data.js target/seed_data.xml"
   },
   "dependencies": {
-    "@servicenow/sdk": "4.7.2"
+    "@servicenow/sdk": "4.8.1"
   },
   "devDependencies": {
     "typescript": "^5.9.3"

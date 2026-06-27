@@ -1,7 +1,7 @@
 {
   "name": "nowsdk-pm",
   "description": "A ServiceNow Senior Architect for Claude Code: from a plain-language app description it generates whole-platform architecture & design documentation (AFU) — recommending best-fit components and annotating each with its delivery channel (Fluent SDK offline / Now SDK with auth / on-platform: App Engine Studio, UI Builder, Flow Designer) — then bootstraps a Now SDK workspace deliverable either live (standard Now SDK, with auth) or fully offline as a no-auth Update Set XML. Grounded in the official Now SDK and source-validated references.",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "author": {
     "name": "Fabio Ciro De Biase",
     "url": "https://www.linkedin.com/in/fabiodebiase-it/"
