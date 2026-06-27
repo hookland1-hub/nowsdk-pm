@@ -50,6 +50,20 @@ the official `now-sdk explain` before authoring.
 | Data Lookup | `DataLookup()` | `dl_definition` | auto-copy field values matcher → target on conditions (**4.8**) |
 | Playbook | `PlaybookDefinition()` | `sys_pd_process_definition` | guided multi-step process: lanes, activities, triggers, in/out (**4.8**) |
 | User Criteria | `UserCriteria()` | `user_criteria` | reusable access condition (catalog/KB/portal visibility) (**4.8**) |
+| Scripted REST API | `RestApi()` | `sys_ws_definition` (+ operations) | custom inbound web-service endpoints, query params, headers, ACL-secured |
+| SLA definition | `Sla()` | `contract_sla` | response/resolution timers with start/pause/stop conditions |
+| Script Action | `ScriptAction()` | event-driven server script (see `explain scriptaction-api`) | runs on a registered event; module function preferred |
+| Cross-scope privilege | `CrossScopePrivilege()` | `sys_scope_privilege` | declare runtime access to another scope's tables/SIs |
+| Import Set / Transform | `ImportSet()` | `sys_transform_map` | staging → target field mapping/transform |
+| User Preference | `UserPreference()` | `sys_user_preference` | per-user setting (supports `$override` merge) |
+| AI Agent / Agentic Workflow | `AiAgent()`, `AiAgenticWorkflow()` | `sn_aia_agent`, `sn_aia_usecase` | AI Agent Studio objects (multi-table, handled by the API) |
+| Now Assist skill | `NowAssistSkillConfig()` | see `explain nowassistskillconfig-api` | Now Assist skill configuration |
+| Instance Scan checks | `TableCheck()`, `ColumnTypeCheck()`, `ScriptOnlyCheck()`, `LinterCheck()` | instance-scan check defs | upgradability/security checks (`instance-scan-guide`) |
+
+> Guide-driven objects (often via `Record()` / dedicated helpers; see the guide + `explain`): Assignment Rule
+> (`assignment-rule-guide`), Event registration (`registering-events-guide`, `sysevent_register`), External
+> Services / LDAP (`external-services-guide`). API-reference "collections" group sub-objects: **Flow**, **Service
+> Catalog**, **Service Portal**, **Workspace**, **Table**, **Instance Scan** — open the collection in `explain`/docs.
 
 Column types: `StringColumn`, `MultiLineTextColumn`, `ChoiceColumn`, `BooleanColumn`, `IntegerColumn`,
 `DateColumn`/`DateTimeColumn`, `ReferenceColumn` (`cascadeRule`), `ListColumn` (Glide List). Add indexes.

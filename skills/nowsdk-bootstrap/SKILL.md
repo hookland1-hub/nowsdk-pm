@@ -21,12 +21,13 @@ converter → Update Set XML → *Retrieved Update Sets*), or the **live** path 
 
 ## Steps
 
-### 1. Prerequisites (check, then guide)
+### 1. Prerequisites — the latest Now SDK is REQUIRED
 - `node --version` and `npm --version` (Node LTS or newer).
-- `npx @servicenow/sdk --version` — the Now SDK CLI (installed as a project dependency).
-- Recommended companion plugins: the official **ServiceNow SDK** plugin (provides `now-sdk explain`)
-  and **superpowers**. Report which are present; if missing, point to the README install steps.
-  Missing companion plugins do not block a Node build.
+- **Mandatory:** the **latest** Now SDK. Compare `npx @servicenow/sdk --version` against the latest
+  (`npm view @servicenow/sdk version`); if missing or not the latest, **stop and have the user install/upgrade**
+  (see README) before scaffolding — the scaffold and its grounding depend on the current SDK.
+- **`superpowers` is the only optional companion** (recommended for brainstorming/planning); its absence does
+  not block.
 
 ### 2. Collect inputs
 - Application **scope** `x_<vendor>_<app>` (lowercase) and human **name**.

@@ -50,17 +50,18 @@ starts from solid ground.
 
 ## Prerequisites
 
-- **Node.js** (LTS or newer) and the **Now SDK** (`@servicenow/sdk`, used as a project dependency).
-- The official **ServiceNow SDK** Claude plugin (provides the `now-sdk explain` skill) — strongly
-  recommended for grounding. Install from the official marketplace:
+- **Node.js** (LTS or newer).
+- **Required — the latest Now SDK.** `nowsdk-pm` is grounded in the live, current `now-sdk explain`, so it
+  **requires** the latest **`@servicenow/sdk`** plus the official **ServiceNow SDK** Claude plugin. If the SDK is
+  missing or not the latest, the skill **stops** and asks you to install/upgrade first (the bundled `references/`
+  are a curated map + best practices, **not** a substitute for the live `explain`). Install:
   - `/plugin marketplace add anthropics/claude-plugins` *(or your configured official marketplace)*
   - `/plugin install servicenow-sdk`
-- **superpowers** (brainstorming / planning discipline) — recommended:
+  - project dependency, latest: `npm install @servicenow/sdk@latest`
+- **superpowers** (brainstorming / planning discipline) — **optional** (recommended); the only companion the
+  plugin runs without:
   - `/plugin marketplace add obra/superpowers`
   - `/plugin install superpowers`
-
-`nowsdk-pm` still works from its bundled references if a companion plugin is missing — it will tell
-you what's available and what to install.
 
 ## Install
 
@@ -88,7 +89,8 @@ Scaffold a Now SDK workspace (ready for either delivery channel):
 ## What's inside
 
 - `skills/nowsdk-pm/` — the architect skill + `references/` (AFU template, **component & delivery-channel
-  matrix**, Service Portal gotchas, A→Z component checklist, the end-to-end update-set workflow) +
+  matrix**, **SDK Fluent capabilities** (4.8), **configuration reference**, **Fluent-language reference**,
+  **best practices**, Service Portal gotchas, A→Z component checklist, the end-to-end update-set workflow) +
   `templates/` (converter, seed generator, validators, `now.config.json`, `package.json`).
 - `skills/nowsdk-bootstrap/` — scaffolds a Now SDK workspace deliverable live (with auth) or offline (no-auth).
 - `commands/` — `/nowsdk-pm` and `/nowsdk-bootstrap` slash commands.
@@ -113,6 +115,17 @@ Fluent (*.now.ts) ──now-sdk build──▶ dist/app/*.xml ──┬─▶ no
   Catalog Builder / App Engine Studio, with the work they need.
 
 ## Changelog
+
+### 0.5.0
+- **Official docs knowledge extracted** (curated, cited) from `servicenow.github.io/sdk` — API Reference,
+  Configuration, Fluent Language, Guides — into new references: `configuration-reference.md` (now.config.json,
+  keys file, CI/frozen-keys), `fluent-language-reference.md` (DSL, `Now.*` helpers, Data Helpers, ES-modules vs
+  `Now.include()`), `best-practices.md` (dev workflow, security/ACLs, identity & deploys, data/migration).
+- **API catalogue completed** in the delivery matrix: `RestApi`, `Sla`, `ScriptAction`, `CrossScopePrivilege`,
+  `ImportSet`, `UserPreference`, `AiAgent`/`AiAgenticWorkflow`/`NowAssistSkillConfig`, Instance Scan checks — with
+  tables validated via `explain`.
+- **The latest Now SDK is now REQUIRED** (blocking preflight); only `superpowers` is optional. Bundled references
+  are a curated map + best practices, not a substitute for the live `explain`.
 
 ### 0.4.0
 - **Aligned to Now SDK 4.8.1** (templates) and added a validated capability knowledge base

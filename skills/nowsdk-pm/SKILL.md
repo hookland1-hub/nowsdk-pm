@@ -48,12 +48,16 @@ You produce a **document**, not an implementation. Stay tool/UI-agnostic about w
 
 ## Workflow
 
-### 1. Check the environment (briefly)
-- Detect whether the official ServiceNow SDK plugin (`now-sdk explain`) and the `superpowers`
-  plugin are available, and whether the `now-sdk` CLI is installed (`npx @servicenow/sdk --version`).
-- If `now-sdk explain` is available, prefer it for API/metadata facts; otherwise rely on `references/`.
-- Tell the user what is available and what is missing (with how to install — see README), but do not
-  block: you can produce the document from the bundled references alone.
+### 1. Preflight — the latest Now SDK is REQUIRED (blocking)
+- **Mandatory:** the **latest** Now SDK must be installed. Detect `npx @servicenow/sdk --version` and compare it
+  to the current latest (`npm view @servicenow/sdk version`).
+- **If it is missing or not the latest → STOP. Do not produce the document.** Tell the user exactly how to
+  install/upgrade (see README) and wait. The bundled `references/` are a **curated map, not a substitute** for the
+  live, current `explain` — authoring must be grounded in the up-to-date SDK docs.
+- Then prefer **`now-sdk explain`** for every API/metadata fact; use `references/` as the curated map + best
+  practices, and re-confirm specifics with `explain <topic>`.
+- **`superpowers` is the only optional companion** (recommended for brainstorming/planning): if missing, continue
+  gracefully without it. The Now SDK is non-negotiable.
 
 ### 2. Understand intent (brainstorming)
 - If the `superpowers:brainstorming` skill is available, use it before designing.
@@ -100,6 +104,12 @@ You produce a **document**, not an implementation. Stay tool/UI-agnostic about w
   update-set workflow.
 - `references/sdk-fluent-capabilities.md` — validated Fluent capability knowledge through SDK 4.8.1
   (new APIs, helpers, what's new 4.7→4.8) with sources; re-confirm shapes with `explain`.
+- `references/configuration-reference.md` — `now.config.json` options, keys file (record identity / frozen keys),
+  CI integration (auth env vars, `--frozenKeys`).
+- `references/fluent-language-reference.md` — the Fluent DSL: `Now.ID/include/attach/ref/del`, `$override`, Data
+  Helpers, and the ES-modules-vs-`Now.include()` server-code rules.
+- `references/best-practices.md` — distilled best practices/anti-patterns (dev workflow, security/ACLs, modules,
+  identity/deploys, data/migration) from the official guides.
 
 ## Definition of done
 A single Markdown document that: follows the full skeleton; covers the whole platform and recommends
