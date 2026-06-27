@@ -48,13 +48,13 @@ starts from solid ground.
    standard **Now SDK (with auth)** (`now-sdk install`/`deploy`), or packaged **offline** into a single,
    self-contained **Update Set XML** importable via *Retrieved Update Sets* (no credentials).
 
-## SDK + `explain` alone vs + nowsdk-pm
+## SDK with `explain`skill alone vs + nowsdk-pm
 
 **The SDK gives you the tools — `nowsdk-pm` gives you the architect.** From a plain-language idea to a
 ServiceNow-correct design and a ready-to-build app, grounded in the `explain` docs you already have. It
 **doesn't replace the SDK** — it requires it and builds the architect layer on top.
 
-| Capability | Now SDK + `explain` | + nowsdk-pm |
+| Capability | Now SDK with `explain` | + nowsdk-pm |
 |---|---|---|
 | Platform facts | Per-topic reference you look up yourself (`explain <topic>`) | The same `explain` (required) **+ a curated, cross-cutting synthesis** (capability map, configuration & Fluent-language references, best practices) |
 | Plain-language description → design | — (you architect it yourself) | A **whole-platform architecture & design document (AFU)** from a description |
