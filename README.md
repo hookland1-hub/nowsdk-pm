@@ -50,8 +50,9 @@ starts from solid ground.
 
 ## SDK + `explain` alone vs + nowsdk-pm
 
-`nowsdk-pm` **doesn't replace the SDK** — it requires the latest Now SDK and `explain`, and adds a
-Senior-Architect layer on top (design, curated knowledge, offline packaging, discipline).
+**The SDK gives you the tools — `nowsdk-pm` gives you the architect.** From a plain-language idea to a
+ServiceNow-correct design and a ready-to-build app, grounded in the `explain` docs you already have. It
+**doesn't replace the SDK** — it requires it and builds the architect layer on top.
 
 | Capability | Now SDK + `explain` alone | + nowsdk-pm |
 |---|---|---|
