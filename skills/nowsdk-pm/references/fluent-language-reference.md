@@ -6,8 +6,10 @@ Curated from the **Fluent Language** hub + `fluent-overview` / `module-guide` / 
 ## What Fluent is
 A **TypeScript DSL** for defining the metadata records (`sys_metadata`) that make up an app — code-driven instead
 of form-based. Metadata lives in `*.now.ts` files organized by feature (`src/fluent/tables/`, `…/business-rules/`),
-importing APIs from **`@servicenow/sdk/core`**; `index.now.ts` re-exports every `*.now.ts`. **Two-way sync**: changes
-made in platform UIs can sync back into source and vice versa. (Source: `fluent-overview`.)
+importing APIs from **`@servicenow/sdk/core`**; `index.now.ts` re-exports every `*.now.ts`. Source ↔ instance is not
+a live auto-sync: **`now-sdk transform`** pulls existing instance metadata (XML) into Fluent source (brownfield/
+one-time), and **`build` + `install`/`deploy`** (or the offline Update Set) pushes Fluent to the instance.
+(Source: `fluent-overview`, `developing-apps-guide`.)
 
 ## Cross-cutting helpers (apply across all APIs)
 - **`Now.ID['key']`** — stable, human-readable identity → a deterministic sys_id (re-builds match). See keys file.
@@ -38,6 +40,11 @@ Source: `module-guide`. **JS/TS ES modules in `src/server/` are the modern, pref
 - **Constraints:** modules are scope-only (no cross-scope sharing), no Node.js APIs, only a subset of ECMAScript;
   prefer `GlideDateTime` over `gs.nowDateTime()` in scoped apps. **Pattern:** put logic in modules, then bridge via a
   lightweight Script Include when a platform feature requires a named script include.
+- **Module anti-patterns (from `module-guide`):** in a module, **never** reference a Script Include via the global
+  scope prefix — `new x_scope.MyUtils()` throws `x_scope is not defined` at runtime; `import { MyUtils } from
+  '@servicenow/glide/x_scope'` instead. Don't assume a Glide method exists from its name — use only methods defined
+  in the `@servicenow/glide` type definitions. In Script Include class files (`Class.create`), do **not** import
+  Glide (auto-available there).
 
 ## Demo / seed data
 Use the `Record` API with `$meta: { installMethod: 'demo' }` for sample data (loads only as demo). For the offline

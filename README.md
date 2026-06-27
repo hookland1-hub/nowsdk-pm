@@ -116,6 +116,12 @@ Fluent (*.now.ts) ──now-sdk build──▶ dist/app/*.xml ──┬─▶ no
 
 ## Changelog
 
+### 0.5.1
+- **Accuracy pass on the integrated docs knowledge** (validated against `now-sdk explain`): module-guide
+  function-vs-`Now.include()` API split and ACL `decisionType`/`type`/`field` properties confirmed exact;
+  corrected an overstated "two-way sync" wording (it's `transform` pull + build/deploy push, not live auto-sync);
+  added a validated module anti-pattern (no global scope-prefix in modules — import from `@servicenow/glide/<scope>`).
+
 ### 0.5.0
 - **Official docs knowledge extracted** (curated, cited) from `servicenow.github.io/sdk` — API Reference,
   Configuration, Fluent Language, Guides — into new references: `configuration-reference.md` (now.config.json,

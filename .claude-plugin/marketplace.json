@@ -9,7 +9,7 @@
     {
       "name": "nowsdk-pm",
       "description": "ServiceNow Senior Architect: from a plain-language app description, generate whole-platform architecture & design documentation (AFU) — recommending best-fit components and their delivery channel (Fluent offline / Now SDK with auth / on-platform) — then bootstrap a Now SDK workspace deliverable live (with auth) or fully offline as a no-auth Update Set XML.",
-      "version": "0.5.0",
+      "version": "0.5.1",
       "source": "./",
       "author": {
         "name": "Fabio Ciro De Biase",
