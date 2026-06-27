@@ -48,7 +48,7 @@ starts from solid ground.
    standard **Now SDK (with auth)** (`now-sdk install`/`deploy`), or packaged **offline** into a single,
    self-contained **Update Set XML** importable via *Retrieved Update Sets* (no credentials).
 
-## SDK with `explain`skill alone vs + nowsdk-pm
+## SDK with `explain` skill alone vs + nowsdk-pm
 
 **The SDK gives you the tools — `nowsdk-pm` gives you the architect.** From a plain-language idea to a
 ServiceNow-correct design and a ready-to-build app, grounded in the `explain` docs you already have. It
