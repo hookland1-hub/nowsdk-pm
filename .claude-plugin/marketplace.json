@@ -9,7 +9,7 @@
     {
       "name": "nowsdk-pm",
       "description": "ServiceNow Senior Architect. Design a new app (whole-platform architecture & design / AFU with delivery channels: Fluent offline / Now SDK with auth / on-platform), align to an existing project's docs and support its evolution, or bootstrap an example project. Run bare for the menu — a description is optional. Requires the latest Now SDK; delivers live (with auth) or fully offline as a no-auth Update Set XML.",
-      "version": "0.6.1",
+      "version": "0.6.2",
       "source": "./",
       "author": {
         "name": "Fabio Ciro De Biase",

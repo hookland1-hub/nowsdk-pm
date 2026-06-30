@@ -13,13 +13,35 @@ one-time), and **`build` + `install`/`deploy`** (or the offline Update Set) push
 
 ## Cross-cutting helpers (apply across all APIs)
 - **`Now.ID['key']`** — stable, human-readable identity → a deterministic sys_id (re-builds match). See keys file.
+  **It resolves to a sys_id ONLY in `$id` position.** Used as a **field value** inside `Record().data` it is
+  serialized verbatim as the **raw key string** (not the sys_id) → Update Set Preview then fails with
+  *"Could not find a record in `<table>` for column `<col>`"*. For a reference in a value position use **`Now.ref()`**.
+  (Build-verified: typed builders like `Acl`/`Table` resolve refs; the generic `Record()` does **not** resolve a bare
+  `Now.ID[...]` value.)
 - **`Now.include('relative/path.ext')`** — inline an external file (server JS, client JS, HTML, CSS) into a record
   **string** field at build time (keeps real source files for IDE support).
-- **`Now.ref(...)`** — reference a record in another table not defined in the current file.
+- **`Now.ref(table, sysIdOrNowIdKey)`** (or `Now.ref(table, { coalesceKey: value })`) — the **first-class way to set a
+  reference in a value position**; resolves to the target sys_id at build time. The guid arg accepts a real sys_id **or
+  a `Now.ID` key string** of a record defined in your project, e.g. `data: { parent: Now.ref('sys_user_group', 'grp_parent') }`.
+  Prefer this over hardcoding sys_ids read from `keys.ts`. (Source: `now-ref-guide`.)
 - **`Now.attach('image')`** — attach an image to a record at build time (writes `sys_attachment` + `_doc` records).
 - **`Now.del()`** — mark a record for **deletion**; removed from the target on deploy.
 - **`$override`** — escape hatch on any constructor to set a field not exposed by the typed API surface
   (`override-guide`). Use sparingly; prefer typed properties.
+
+## Declarative-subset rules (`*.now.ts` is NOT general TypeScript)
+A `*.now.ts` file is parsed by the Fluent compiler into a constrained, **declarative** subset — not executed as
+general TS. Build-verified on 4.8.1:
+- **No helper functions / no typed params.** A `function f(k: string) { … }` to DRY up records fails with
+  `TS154: Node kind "StringKeyword" is not allowed in Fluent files` + `TS262: Unsupported statement in Fluent source file`.
+  Expand to explicit, fully-literal calls instead.
+- **`Now.ID[...]` keys must be statically resolvable to a string literal.** `Now.ID['literal']` ✅ and even
+  `const k = 'literal'; Now.ID[k]` ✅ (the analyzer traces the const). But a **non-traceable** key — a function
+  parameter or runtime expression — fails: `Invalid argument to element access expression: IdentifierShape` +
+  `Failed to parse property`. So the limit is *functions / typed params / runtime-computed keys*, **not** all locals.
+- **Plain top-level `const X = 'literal'` bindings ARE allowed**, including in value positions
+  (`const ROLE = 'x_scope.viewer'` then `roles: [ROLE]`). To generate many similar records, emit literal code from a
+  Node script (e.g. `tools/generate-*.js`) rather than looping inside the `.now.ts`.
 
 ## Data helpers (typed values for `Record()` data fields — global, no import)
 Source: `data-helpers-guide`. All give type-safe field IntelliSense with a generic table parameter.

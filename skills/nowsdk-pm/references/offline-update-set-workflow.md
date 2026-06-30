@@ -310,6 +310,14 @@ Reads every `<record_update>` XML under `dist/app`, wraps each into a `<sys_upda
 record so the target instance does **not** need the scoped app pre‑created. Supports a **delta**
 whitelist via `--include`.
 
+> **BYOUI (React/Vue) note:** the shipped template converter also (a) infers the table from the **first
+> child element** when a `<record_update>` has no `table=` attribute (e.g. `sys_ux_lib_asset`), (b)
+> **propagates the inner `action`** (`INSERT_OR_UPDATE`/`DELETE`) to `sys_update_xml.action`, and (c)
+> **strips embedded `sn_glider_source_artifact`/`_m2m` bookkeeping** from BYOUI page/asset payloads (those
+> rows require the Glider source-artifact framework on the target and otherwise fail to commit in two
+> waves; they are not needed at runtime). The simplified listing below omits (b)/(c) for brevity — use the
+> file in `templates/tools/sdk-dist-to-update-set.js`.
+
 ```js
 #!/usr/bin/env node
 const crypto = require('crypto')
@@ -574,6 +582,10 @@ Now Experience/Workspace (for workspace surfaces).
 | Validator can't find `<sp_portal>` / records | Records are HTML‑escaped inside `<payload>` | Match `&lt;sp_portal`, count via `<name><table>_<32hex></name>` |
 | Need a custom single‑page UI but no instance auth | UX Builder pages aren't Fluent/offline | Use Service Portal (SPPage+SPWidget) or classic UiPage |
 | SDK ZIP rejected as update set | ZIP is a source/package archive | Import the generated `sys_remote_update_set` XML instead |
+| Commit log: `Table 'sn_glider_source_artifact_m2m' does not exist` (then `…_artifact`) | BYOUI React/Vue page embeds Glider source-artifact bookkeeping; target lacks the framework (errors in two waves) | Converter strips both `sn_glider_source_artifact*` blocks; or install the Glider framework |
+| Preview: `Could not find a record in <table> for column <col>` | `Now.ID[...]` used as a **field value** in a generic `Record()` (resolves only in `$id`) | Use `Now.ref('<table>', '<key-or-sysId>')` in value positions |
+| Scheduled job never runs; `run_period`/`run_time` = `[object Object]` | `ScheduledScript` `executionInterval`/`executionTime` object not serialized on write | Pass a GlideDuration string: `executionInterval: '1970-01-01 00:00:30' as any` |
+| Build: `StringKeyword not allowed` / `IdentifierShape` / `Unsupported statement` | Function / typed param / non-literal `Now.ID[key]` in a `*.now.ts` | Keep source declarative; literal `Now.ID` keys; generate repetitive records from a Node script |
 | `explain` not found / errors | SDK < 4.6 or wrong topic | Upgrade SDK; use `--list` to find the right topic |
 
 ---

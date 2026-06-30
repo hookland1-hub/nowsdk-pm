@@ -48,6 +48,40 @@ cost real debugging time in production deliveries.
   end-to-end on a client instance. The deeper UX form-view rules (`sys_ux_view_rules_configuration` /
   `viewRuleConfigId` on `sys_ux_page_registry`) are on-platform and were **not** needed for this.
 
+## BYOUI — React / Vue UI Pages (`UiPage` with `direct: true`)
+Build-verified on 4.8.1 with the `typescript.react` template.
+- **The build embeds `sn_glider_source_artifact` bookkeeping that fails to commit on instances without the Glider
+  framework.** When the SDK bundles a React/Vue BYOUI page it appends source→artifact records **inside** the
+  `sys_ui_page` and `sys_ux_lib_asset` payloads (siblings of the primary element within `<record_update>`):
+  `sn_glider_source_artifact_m2m` rows, a parent `sn_glider_source_artifact`, a source-zip
+  `sys_attachment`/`sys_attachment_doc`, and `action="delete_multiple"` cleanup directives. The
+  `sn_glider_source_artifact*` tables exist **only where the Glider source-artifact framework is installed**; on a
+  target without it, commit logs `Table 'sn_glider_source_artifact_m2m' does not exist` — and it surfaces in **two
+  waves** (the `_m2m` join first, then the parent). These rows are **not** needed at runtime (the page renders from
+  `sys_ui_page` + `sys_ux_lib_asset`). **Fix (offline):** the converter strips both `sn_glider_source_artifact_m2m`
+  and `sn_glider_source_artifact` blocks (paired and self-closing) before emitting; the source-zip `sys_attachment`/
+  `sys_attachment_doc` are left in place (base tables — they commit cleanly and are harmless once orphaned).
+  Alternatively, document the Glider framework as a commit prerequisite.
+- **BYOUI assets emit `<record_update>` WITHOUT a `table=` attribute.** `sys_ux_lib_asset` (and the asset half of the
+  page) open with a bare `<record_update>` — the table must be inferred from the **first child element name**
+  (`sys_ui_page` itself does carry `table="sys_ui_page"`). A converter keying only on `record_update@table` silently
+  drops the asset records. The shipped converter already falls back to the first child element.
+- **React UiPage essentials** (template-confirmed): `direct: true`, `html: <imported index.html>`, the
+  `<sdk:now-ux-globals></sdk:now-ux-globals>` tag, and a `<script type="module">` entry. Field-added (not in the
+  default template, instance-dependent): an **`Array.from` polyfill inline before the module scripts** (the platform's
+  prototype.js can break iterables) and **`class="-polaris"` on `<html>`** for the Next Experience theme.
+
+## Scheduled jobs (Fluent)
+- **`ScheduledScript` `executionInterval`/`executionTime` object form serializes to `[object Object]` — the job
+  never fires (silent).** The **documented** object shape (`executionInterval: { hours, minutes, seconds }` /
+  `executionTime: { hours, minutes, seconds }`) is **not converted on the write/build path** in 4.8.1: the built
+  `sysauto_script` gets `run_period`/`run_time` = the literal string `[object Object]` (an invalid GlideDuration), so
+  the scheduler can't compute a next run. Build succeeds, import succeeds, the job just never runs. **Workaround
+  (build-verified):** pass the **GlideDuration string** directly, casting past the typings —
+  `executionInterval: '1970-01-01 00:00:30' as any` (= 30 s) → emits `run_period` `1970-01-01 00:00:30`;
+  `executionTime: '1970-01-01 04:00:00' as any` (= 04:00). (The read/`transform` path *does* convert, so this only
+  bites when authoring.) Add a build-time check that errors if `run_period`/`run_time` would be `[object Object]`.
+
 ## Platform patterns
 - **Scoped `GlideRecord` does NOT enforce record ACLs.** A scoped app enforces *application-scope
   protection* (cross-scope access) by default, but server-side `GlideRecord` runs with system access
@@ -62,3 +96,8 @@ cost real debugging time in production deliveries.
   `sys_report` is not Fluent-declarable) + revalidate/delete actions.
 - **Self-contained app**: the converter includes the `sys_app` record, so a clean instance gets the
   scoped app created on commit — one Update Set deploys the whole app.
+- **Secrets never ship in the update set.** Hold a secret in a `password2` (encrypted) system property with an
+  **empty** value and inject it at runtime (`gs.getProperty(...)` + `setRequestHeader(...)`); document setting the
+  value as a post-import step (not an SDK gap). ⚠️ A `password2` property shipped with an empty value can **reset the
+  instance's value on every re-commit** — flag re-entering the secret after each re-import, or exclude that property's
+  value from the set.

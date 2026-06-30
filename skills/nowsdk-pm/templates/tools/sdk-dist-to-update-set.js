@@ -39,6 +39,27 @@ const EXCLUDED_UPDATE_TABLES = new Set([
   'sys_user_role_contains',
 ])
 
+// Source->artifact bookkeeping the SDK appends *inside* BYOUI (React/Vue) `sys_ui_page` and
+// `sys_ux_lib_asset` payloads (siblings of the primary element within <record_update>). These
+// `sn_glider_source_artifact` / `_m2m` rows belong to the Glider source-artifact framework — a
+// dev-sync convenience, NOT needed to render the page. On a target that lacks that framework they
+// fail to commit (in two waves: the `_m2m` join first, then the parent record). Strip them for a
+// clean no-auth offline import. The source-zip `sys_attachment`/`sys_attachment_doc` are left in
+// place (base tables: they commit cleanly and are harmless once orphaned).
+const STRIPPED_EMBEDDED_TABLES = ['sn_glider_source_artifact_m2m', 'sn_glider_source_artifact']
+
+function stripEmbeddedBookkeeping(xml) {
+  let result = xml
+  let removed = 0
+  for (const table of STRIPPED_EMBEDDED_TABLES) {
+    const paired = new RegExp(`[\\t ]*<${table}\\b[^>]*>[\\s\\S]*?<\\/${table}>\\s*\\n?`, 'g')
+    const selfClosing = new RegExp(`[\\t ]*<${table}\\b[^>]*\\/>\\s*\\n?`, 'g')
+    result = result.replace(paired, () => ((removed += 1), ''))
+    result = result.replace(selfClosing, () => ((removed += 1), ''))
+  }
+  return { xml: result, removed }
+}
+
 function usage() {
   console.error(
     'Usage: node tools/sdk-dist-to-update-set.js <dist/app> <output.xml> [update-set-name] [--include=spec,...]'
@@ -159,9 +180,15 @@ function parseRecord(filePath) {
     tagDisplayValue(xml, 'sys_scope') ||
     updateName
 
+  // Metadata above is read from the primary element; strip embedded source-artifact
+  // bookkeeping from the payload that actually gets committed.
+  const stripped = stripEmbeddedBookkeeping(xml)
+
   return {
     filePath,
     xml,
+    payloadXml: stripped.xml,
+    strippedCount: stripped.removed,
     table,
     sysId,
     updateName,
@@ -241,7 +268,7 @@ for (const record of emittedRecords) {
   lines.push('<category>customer</category>')
   lines.push('<comments/>')
   lines.push(`<name>${escapeXml(record.updateName)}</name>`)
-  lines.push(`<payload>${escapeXml(record.xml)}</payload>`)
+  lines.push(`<payload>${escapeXml(record.payloadXml)}</payload>`)
   lines.push(
     `<remote_update_set display_value="${escapeXml(updateSetName)}">${escapeXml(remoteUpdateSetId)}</remote_update_set>`
   )
@@ -286,5 +313,11 @@ if (deltaMode) {
 if (excludedRecords.length > 0) {
   console.log(
     `Excluded ${excludedRecords.length} SDK XML record(s): ${[...new Set(excludedRecords.map((record) => record.table))].join(', ')}.`
+  )
+}
+const strippedTotal = emittedRecords.reduce((sum, record) => sum + (record.strippedCount || 0), 0)
+if (strippedTotal > 0) {
+  console.log(
+    `Stripped ${strippedTotal} embedded source-artifact bookkeeping block(s) (${STRIPPED_EMBEDDED_TABLES.join(', ')}) from BYOUI payloads.`
   )
 }

@@ -43,6 +43,9 @@ mark N/A with a reason. For each ticked item, **note its delivery channel** — 
 - [ ] Dashboards (KPIs) if needed
 - [ ] Service Portal (portal/pages/widgets) for custom single-page UX — remember the SP gotchas
 - [ ] Classic Form/List/UI Page where appropriate
+- [ ] BYOUI React/Vue `UiPage` (`direct: true`) for a custom SPA delivered offline — include the `Array.from`
+  polyfill + `<sdk:now-ux-globals>` + `class="-polaris"`; converter strips embedded `sn_glider_source_artifact`
+  bookkeeping (or note the Glider framework as a commit prerequisite). See `service-portal-gotchas.md`.
 - [ ] **UI Builder UX pages/components/macroponents** (`sys_ux_*`) where a rich Next Experience UI is
   the best fit — channel: **on-platform** (authored in UI Builder; Fluent can scaffold the workspace shell)
 

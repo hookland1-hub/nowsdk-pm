@@ -46,6 +46,24 @@ to bake into the design; confirm specifics with `now-sdk explain <topic>` and th
 - **Extending platform/cross-scope tables:** use `Table` **`augments`** (only `schema` configurable) instead of
   copying tables; declare cross-scope needs with `CrossScopePrivilege()`.
 
+## Integrations & scheduled jobs (field-validated defaults)
+- **Isolate every external integration behind one client + one mapper.** Route all outbound calls through a single
+  client Script Include + a single `RestMessage`, and localize provider field paths in **one** mapping Script Include.
+  Then a provider swap (rate limits, free-tier change) touches only those files — tables, ACLs, read API, UI and the
+  data model stay untouched. Keep provider quirks (auth header name, base URL, rate-limit handling, gated params)
+  inside the client/mapper so they never leak into the platform layer.
+- **A "live/near-real-time poll" must be an *unconditional* interval job — never gated on a state it produces.** If a
+  `ScheduledScript` is `conditional` on a state that the job itself sets, nothing bootstraps it: once the state lapses
+  (or before the first run) the condition is false, the job never runs, and the state is never re-established (symptom:
+  the target rows freeze even though the connection and a manual run work). Default to an unconditional job at a cadence
+  sized to the provider's rate limit, and let the **fetch** decide what to update. To save quota, gate **pausing** via a
+  property checked **in the job body** — or a time/schedule condition — never via the table the job writes.
+- **`ScheduledScript` interval/time:** pass `executionInterval`/`executionTime` as a **GlideDuration string**
+  (`'1970-01-01 00:00:30' as any`), not the object form — the documented object serializes to `[object Object]` and the
+  job silently never fires (see `service-portal-gotchas.md`).
+- **References in `Record().data` use `Now.ref(table, key)`** — a bare `Now.ID[...]` in a value position serializes as
+  the raw key and fails Update Set Preview (see `fluent-language-reference.md`).
+
 ## Anti-patterns (e.g. `playbook-anti-patterns-guide`)
 - Don't encode ordering/branching logic where the DSL provides structured constructs (lanes/stages/decisions,
   `TryCatch`/`DoInParallel`); follow the patterns guides. Keep each metadata object single-responsibility.

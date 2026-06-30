@@ -149,6 +149,13 @@ Fluent (*.now.ts) ──now-sdk build──▶ dist/app/*.xml ──┬─▶ no
 
 ## Changelog
 
+### 0.6.2
+- **Field-feedback pass: 8 gotchas from a real BYOUI + outbound-REST build, each verified in a sandbox (SDK 4.8.1) before folding in.** Highlights:
+  - **`Now.ref()` for value-position references** — a bare `Now.ID[...]` in `Record().data` serializes as the raw key and fails Update Set Preview; `Now.ref('<table>', '<key>')` resolves to the sys_id (build-verified). No need to hardcode sys_ids from `keys.ts`.
+  - **`ScheduledScript` interval/time defect** — the documented `executionInterval`/`executionTime` *object* form serializes to `[object Object]` (job never fires, silently); pass a GlideDuration string `'1970-01-01 00:00:30' as any` (build-verified).
+  - **BYOUI React/Vue UI Pages** — the build embeds `sn_glider_source_artifact` bookkeeping that fails to commit without the Glider framework (in two waves); **the offline converter now strips it** (tested). Plus the declarative-subset rules (`*.now.ts` rejects functions/typed params/non-literal keys), the `table=`-less `<record_update>` for assets, `password2`-secret handling, provider isolation, and the unconditional-poll bootstrap rule.
+- Updated `fluent-language-reference.md`, `service-portal-gotchas.md`, `best-practices.md`, `component-checklist.md`, `offline-update-set-workflow.md`, and the converter template.
+
 ### 0.6.1
 - **Two production-validated gotchas added** (hard-won on a live client deploy):
   (1) **Configurable Workspace record preview** needs a `Form()` on the **`workspace`** view per table —
