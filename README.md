@@ -149,6 +149,15 @@ Fluent (*.now.ts) ──now-sdk build──▶ dist/app/*.xml ──┬─▶ no
 
 ## Changelog
 
+### 0.6.1
+- **Two production-validated gotchas added** (hard-won on a live client deploy):
+  (1) **Configurable Workspace record preview** needs a `Form()` on the **`workspace`** view per table —
+  a `default_view` form covers the classic + full record form but not the preview pane (warns *"This form has
+  not been configured for Workspace"*); fix offline with `Form({ view: 'workspace' })`.
+  (2) **Widget server script execution order**: the script is an IIFE and `var` assignments are not hoisted, so a
+  call placed before the `var` maps it uses throws *"Cannot read property … from undefined"* — put triggers after them.
+- `component-checklist.md` reminds to add the `workspace`-view form when a Configurable Workspace is used.
+
 ### 0.6.0
 - **`/nowsdk-pm` is now a menu** when run bare — a description is no longer required. Three modes:
   **New project** (design from an idea), **Align to an existing project** (point it at a local docs/deliverables

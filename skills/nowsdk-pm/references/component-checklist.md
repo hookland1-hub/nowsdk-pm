@@ -36,6 +36,9 @@ mark N/A with a reason. For each ticked item, **note its delivery channel** — 
 ## User interface (choose the best surface; note the channel)
 - [ ] Consultation surface: Configurable Workspace / **UI Builder UX experience** / Service Portal console
 - [ ] Management surface: Workspace CRUD / **UI Builder** / Service Portal management
+- [ ] If a **Configurable Workspace** is used: a form on the **`workspace` view** per exposed table
+  (`Form({ view: 'workspace', … })`) — the record **preview** pane needs it or it warns *"This form has
+  not been configured for Workspace"* (the full record uses `default_view`). See `service-portal-gotchas.md`.
 - [ ] Application menu + modules (backend navigation; URL module to a portal page if useful)
 - [ ] Dashboards (KPIs) if needed
 - [ ] Service Portal (portal/pages/widgets) for custom single-page UX — remember the SP gotchas
