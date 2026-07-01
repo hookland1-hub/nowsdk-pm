@@ -73,6 +73,12 @@ function usage() {
   console.error(
     '             the sys_app record is used for header metadata but emitted only if it matches.'
   )
+  console.error(
+    '  --version  Package version shown in the update-set description (default: the sys_app version).'
+  )
+  console.error(
+    '  --notes    Free-text note of what this (re)build adds/changes — shown in the description.'
+  )
   process.exit(2)
 }
 
@@ -231,6 +237,27 @@ const now = serviceNowDate()
 const remoteUpdateSetId = guid()
 const remoteSysId = guid()
 
+// Human-readable versioning + auto contents declaration for the update-set description, so the
+// Retrieved Update Sets list / Preview page make incremental rebuilds and full re-imports
+// unambiguous (which version, FULL vs DELTA, what changed, and exactly what the package includes).
+const versionFlag = flagArgs.find((arg) => arg.startsWith('--version='))
+const notesFlag = flagArgs.find((arg) => arg.startsWith('--notes='))
+const packageVersion = (versionFlag ? versionFlag.slice('--version='.length).trim() : '') || appVersion
+const notes = notesFlag ? notesFlag.slice('--notes='.length).trim().replace(/^["']|["']$/g, '') : ''
+const contentsByType = emittedRecords.reduce((acc, record) => {
+  acc[record.type] = (acc[record.type] || 0) + 1
+  return acc
+}, {})
+const contentsSummary = Object.entries(contentsByType)
+  .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+  .map(([type, count]) => `${type}×${count}`)
+  .join(', ')
+const packageKind = deltaMode ? `DELTA (--include=${includeSpec.join(',')})` : 'FULL'
+const descriptionParts = [`${updateSetName} · v${packageVersion} · ${packageKind} · generated ${now}`]
+if (notes) descriptionParts.push(notes)
+descriptionParts.push(`Includes ${emittedRecords.length} record(s): ${contentsSummary}`)
+const updateSetDescription = descriptionParts.join(' | ')
+
 const lines = []
 lines.push('<?xml version="1.0" encoding="UTF-8"?>')
 lines.push(`<unload unload_date="${escapeXml(now)}">`)
@@ -242,7 +269,7 @@ lines.push(`<application_version>${escapeXml(appVersion)}</application_version>`
 lines.push('<collisions/>')
 lines.push('<commit_date/>')
 lines.push('<deleted/>')
-lines.push(`<description>${escapeXml(updateSetName)} - generated ${escapeXml(now)}</description>`)
+lines.push(`<description>${escapeXml(updateSetDescription)}</description>`)
 lines.push('<inserted/>')
 lines.push(`<name>${escapeXml(updateSetName)}</name>`)
 lines.push('<origin_sys_id/>')
@@ -294,6 +321,8 @@ fs.mkdirSync(path.dirname(outputFile), { recursive: true })
 fs.writeFileSync(outputFile, `${lines.join('\n')}\n`, 'utf8')
 
 console.log(`Wrote ${outputFile}`)
+console.log(`Update set: ${updateSetName} · v${packageVersion} · ${packageKind}`)
+console.log(`Description: ${updateSetDescription}`)
 if (deltaMode) {
   const byTable = emittedRecords.reduce((acc, record) => {
     acc[record.table] = (acc[record.table] || 0) + 1

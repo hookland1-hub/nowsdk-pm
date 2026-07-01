@@ -149,6 +149,12 @@ Fluent (*.now.ts) ──now-sdk build──▶ dist/app/*.xml ──┬─▶ no
 
 ## Changelog
 
+### 0.6.3
+- **Versioned, self-describing Update Sets.** The generated `<description>` now carries — beyond the generation timestamp — a **version**, **FULL vs DELTA**, an optional **note** (`--version` / `--notes`), and an **auto contents declaration** (per-type record counts), so the ServiceNow *Retrieved Update Sets / Preview* page is unambiguous on incremental rebuilds. Example: `My App · v1.1.0 · DELTA (--include=sp_*) · generated … | portal refresh | Includes 4 record(s): Portal Widget×1, …`.
+- **Local project gotcha ledger (`docs/gotchas.md`).** New operating rule: the plugin always reads it (alongside the bundled gotchas) and appends a new entry whenever it resolves a new problem — especially a **post-deploy** fix. Seed template added under `templates/docs/`.
+- **Full-path recaps.** New operating rule: end-of-task recaps list every generated/updated file by its **full absolute path**.
+- Updated the converter, `SKILL.md`, `offline-update-set-workflow.md`, `component-checklist.md`, and the `package.json` template.
+
 ### 0.6.2
 - **Field-feedback pass: 8 gotchas from a real BYOUI + outbound-REST build, each verified in a sandbox (SDK 4.8.1) before folding in.** Highlights:
   - **`Now.ref()` for value-position references** — a bare `Now.ID[...]` in `Record().data` serializes as the raw key and fails Update Set Preview; `Now.ref('<table>', '<key>')` resolves to the sys_id (build-verified). No need to hardcode sys_ids from `keys.ts`.

@@ -78,4 +78,7 @@ mark N/A with a reason. For each ticked item, **note its delivery channel** — 
 - [ ] Role assignment + target plugin prerequisites (Service Portal / Now Experience / App Engine)
 - [ ] Operational guide / documentation for the client
 - [ ] On-platform / SDK-auth gaps explicitly listed with owner & sequencing
+- [ ] Update Set description carries **version + FULL/DELTA + contents declaration** (`--version`/`--notes`) so the SNOW *Retrieved Update Sets / Preview* page is unambiguous on incremental rebuilds
+- [ ] Local **`docs/gotchas.md`** ledger kept current — every new fix (especially **post-deploy**) recorded (symptom→cause→fix)
+- [ ] Final recap lists every generated/updated file by its **full absolute path**
 - [ ] Open points captured & owner assigned

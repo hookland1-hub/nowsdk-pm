@@ -46,6 +46,24 @@ Ground every platform fact in the official Now SDK (`explain`); stay tool/UI-agn
 3. **Respect the UI & packaging patterns/gotchas** in `references/service-portal-gotchas.md`
    when those components are chosen.
 4. **Confidentiality**: never put real client names or sensitive data in the generated document.
+5. **Keep a local project gotcha ledger — always consult it, always grow it.** Every project keeps
+   `docs/gotchas.md`: a project-specific ledger of hard-won fixes, each as **symptom → root cause → fix**
+   (dated; flag whether it was a **post-deploy** fix). **Always read it when working on the project**
+   (during Mode B alignment and on every subsequent request), **in addition to** the bundled
+   `references/service-portal-gotchas.md` — treat it as authoritative project-specific knowledge.
+   **Whenever you resolve a NEW problem — especially a fix applied after a deploy — append it** to
+   `docs/gotchas.md` before you finish, so it is never lost, informs future work, and can be promoted
+   into this plugin's shared references. If the file does not exist yet, create it the first time you
+   resolve something worth recording.
+6. **Recap with full absolute paths.** When you finish and summarize what you did, list **every file you
+   generated or updated by its full absolute path** (not a relative or bare filename), so the user can
+   locate it immediately. The same applies to generated update sets / seed XML / design docs.
+7. **Versioned, self-describing update sets.** When generating an Update Set XML, its `<description>` must
+   carry — beyond the generation timestamp — a **version** and a **declaration of what the package
+   includes** (FULL vs DELTA + a per-type record count), so the ServiceNow *Retrieved Update Sets /
+   Preview* page makes incremental rebuilds unambiguous. The bundled converter does this automatically;
+   pass `--version=<x.y.z>` and `--notes="what this build adds"` for incremental rebuilds
+   (see `references/offline-update-set-workflow.md`).
 
 ## Workflow
 
@@ -103,6 +121,7 @@ After the preflight passes:
 
 ### A4. Save & hand off
 - Save the document as a Markdown file (e.g. `docs/<app>-design-spec-v1.md`) in the user's working directory.
+  Report it — and any other file you write — by its **full absolute path** (operating rule 6).
 - Summarize what was produced and remind the user this is a **starting point** for a design review,
   not a substitute for one. Offer next steps per the chosen delivery channels: an on-platform build
   (App Engine Studio / UI Builder / Flow Designer), a Now SDK build with instance auth, and/or — for
@@ -111,7 +130,9 @@ After the preflight passes:
 ## Mode B — Align to an existing project (then support its evolution)
 - Ask the user for the **local path** of the project's docs/deliverables.
 - **Read it (read-only)**: `*.md` (design/AFU/README/operational guides), `*.now.ts` (Fluent source),
-  `now.config.json`, `package.json`, `target/*.xml` (update sets / seed), `docs/`, `src/`.
+  `now.config.json`, `package.json`, `target/*.xml` (update sets / seed), `docs/`, `src/`. **Always
+  include `docs/gotchas.md`** (the project's local gotcha ledger, per operating rule 5) if present —
+  it is authoritative project-specific knowledge to honor on every subsequent request.
 - **Synthesize the project's current state**: scope (`x_<vendor>_<app>`) + scopeId, data model
   (tables/columns/choices/indexes), security (roles/ACLs/scope protection), UI surfaces
   (Workspace / Service Portal / classic), integrations (Script Includes / REST), delivery channel(s),
@@ -144,6 +165,9 @@ After the preflight passes:
   Helpers, and the ES-modules-vs-`Now.include()` server-code rules.
 - `references/best-practices.md` — distilled best practices/anti-patterns (dev workflow, security/ACLs, modules,
   identity/deploys, data/migration) from the official guides.
+
+**Plus the project's own `docs/gotchas.md`** (operating rule 5) — the local, project-specific gotcha ledger.
+Load it alongside these bundled references and keep it updated; it is authoritative for that project.
 
 ## Definition of done (per mode — preflight always passed first)
 - **Mode A (new project):** a single Markdown document that follows the full skeleton; covers the whole platform and

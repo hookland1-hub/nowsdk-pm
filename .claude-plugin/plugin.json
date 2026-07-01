@@ -1,7 +1,7 @@
 {
   "name": "nowsdk-pm",
   "description": "A ServiceNow Senior Architect for Claude Code. Run it on your idea to design a new app (whole-platform architecture & design / AFU, with each component's delivery channel: Fluent SDK offline / Now SDK with auth / on-platform), point it at an existing project's docs to align and support its evolution, or bootstrap an example project. Invoked bare it offers these as a menu — a description is optional. Requires the latest Now SDK; grounds every fact in the official Now SDK (now-sdk explain) and source-validated references. Delivers live (with auth) or fully offline as a no-auth Update Set XML.",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "author": {
     "name": "Fabio Ciro De Biase",
     "url": "https://www.linkedin.com/in/fabiodebiase-it/"
